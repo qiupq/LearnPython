@@ -1,0 +1,44 @@
+file = open('pepper.txt')
+text = file.read()
+paragraphs = text.split('\n\n')
+
+def find_indices_for(big, small):
+    indices = []
+    cum = 0
+    while 1:
+        index = big.find(small)
+        if index == -1:
+            return indices
+        indices.append(index+cum)
+        big = big[index+len(small):]
+        cum = cum + index + len(small)
+
+def fix_paragraphs_with_word(paragraphs, word):
+    lenword = len(word)
+    for par_no in range(len(paragraphs)):
+        p = paragraphs[par_no]
+        wordpositions = find_indices_for(p, word)
+        if wordpositions == []: return
+        for start in wordpositions:
+            # Look for 'pepper' ahead.
+            indexpepper = p.find('pepper')
+            if indexpepper == -1: return -1 
+            if p[start:indexpepper].strip():
+                # Something other than whitespace in between!
+                continue
+            where = indexpepper+len('pepper')
+            if p[where:where+len('corn')] == 'corn':
+                # It's immediately followed by 'corn'!
+                continue
+            if p.find('salad') < where:
+                # It's not followed by 'salad'.
+                continue
+            # Finally! We get to do a change!
+            p = p[:start] + 'bell' + p[start+lenword:]
+            paragraphs[par_no] = p # Change mutable argument!
+
+fix_paragraphs_with_word(paragraphs, 'red')
+fix_paragraphs_with_word(paragraphs, 'green')
+
+for paragraph in paragraphs:
+    print paragraph+'\n'

@@ -1,0 +1,1 @@
+run file mymod-main.py in this directory

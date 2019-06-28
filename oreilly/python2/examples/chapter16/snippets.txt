@@ -1,0 +1,80 @@
+# see all the *.py files in this directory
+
+>>> import module1                    # get module as a whole
+>>> module1.printer('Hello world!')   # qualify to get names
+Hello world!
+
+>>> from module1 import printer       # copy out one variable
+>>> printer('Hello world!')           # no need to qualify name
+Hello world!
+
+>>> from module1 import *             # copy out all variables
+>>> printer('Hello world!')
+Hello world!
+
+
+
+
+>>> import simple          # first import: loads and runs file's code
+hello
+>>> simple.spam            # assignment makes an attribute
+1
+
+>>> simple.spam = 2        # change attribute in module
+>>> import simple          # just fetches already-loaded module
+>>> simple.spam            # code wasn't rerun: attribute unchanged
+2
+
+
+
+
+>>> from small import x, y      # copy two names out
+>>> x = 42                      # changes local x only    
+>>> y[0] = 42                   # changes shared mutable in-place
+
+>>> import small                # get module name (from doesn't)
+>>> small.x                     # small's x is not my x
+1
+>>> small.y                     # but we share a changed mutable
+[42, 2]
+
+>>> from small import x, y      # copy two names out
+>>> x = 42                      # changes my x only
+  
+>>> import small                # get module name
+>>> small.x = 42                # changes x in other module
+
+
+
+
+>>> import module2
+starting to load...
+done loading.
+
+>>> module2.sys
+<module 'sys'>
+>>> module2.name
+42
+>>> module2.func, module2.klass
+(<function func at 765f20>, <class klass at 76df60>)
+
+>>> module2.__dict__.keys()
+['__file__', 'name', '__name__', 'sys', '__doc__', '__builtins__', 'klass', 'func']
+
+
+
+
+>>> import changer
+>>> changer.printer()
+First version
+>>>
+
+>>> import changer
+>>> changer.printer()      # no effect: uses loaded module
+First version
+
+>>> reload(changer)        # forces new code to load/run
+<module 'changer'>
+>>> changer.printer()      # runs the new version now
+reloaded: After editing
+

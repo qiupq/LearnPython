@@ -1,0 +1,165 @@
+>>> myexc = "My exception string"
+>>> try:
+...     raise myexc
+... except myexc:
+...     print 'caught'
+...
+caught
+
+
+>>> raise myexc
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+My exception string
+
+
+
+
+# see file classexc.py
+
+# see file stringexc.py
+
+
+
+
+divzero = 'Division by zero error in library'
+oflow   = 'Numeric overflow error in library'
+…
+raise divzero
+
+import mathlib
+…
+try:
+    mathlib.func(…)
+except (mathlib.divzero, mathlib.oflow):
+    …report and recover… 
+
+
+class NumErr: pass
+class Divzero(NumErr): pass
+class Oflow(NumErr): pass
+…
+raise DivZero()
+
+import mathlib
+…
+try:
+    mathlib.func(…)
+except mathlib.NumErr:
+    …report and recover…
+
+
+
+
+>>> import exceptions
+>>> help(exceptions)
+
+try:
+    action()
+except StandardError:
+    …handle Python errors…
+except:
+    …handle user exceptions…
+else:
+    …handle no exception case…
+
+
+
+
+>>> class MyBad: pass
+
+>>> raise MyBad()
+Traceback (most recent call last):
+  File "<pyshell#30>", line 1, in ?
+    raise MyBad
+MyBad: <__main__.MyBad instance at 0x00B58980>
+
+
+>>> class MyBad:
+...     def __repr__(self):
+...         return "Sorry--my mistake!"
+... 
+>>> raise MyBad()
+Traceback (most recent call last):
+  File "<pyshell#43>", line 1, in ?
+    raise MyBad()
+MyBad: Sorry--my mistake!
+
+
+
+
+>>> class FormatError:
+...     def __init__(self, line, file):
+...         self.line = line
+...         self.file = file
+...
+>>> def parser():
+...     # when error found
+...     raise FormatError(42, file='spam.txt')
+... 
+>>> try:
+...     parser()
+... except FormatError, X:
+...     print 'Error at', X.file, X.line
+...
+Error at spam.txt 42
+
+
+
+
+>>> formatError = 'formatError'
+
+>>> def parser():
+...     # when error found
+...     raise formatError, {'line':42, 'file':'spam.txt'}
+...
+>>> try:
+...     parser()
+... except formatError, X:
+...     print 'Error at', X['file'], X['line']
+...
+Error at spam.txt 42
+
+
+
+
+class FormatError:
+    def __init__(self, line, file):
+        self.line = line
+        self.file = file
+    def logerror(self):
+        log = open('formaterror.txt', 'a')
+        print >> log, 'Error at', self.file, self.line
+
+def parser():
+    raise FormatError(40, 'spam.txt')
+
+try:
+    parser()
+except FormatError, exc:
+    exc.logerror()
+
+
+
+
+formatError = "formatError"
+
+def logerror(line, file):
+    log = open('formaterror.txt', 'a')
+    print >> log, 'Error at', file, line
+
+def parser():
+    raise formatError, (41, 'spam.txt', logerror)
+
+try:
+    parser()
+except formatError, data:
+    data[2](data[0], data[1])        # or simply: logerror()
+
+
+
+
+
+
+
+

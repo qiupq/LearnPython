@@ -1,0 +1,273 @@
+# global scope
+X = 99                # X and func assigned in module: global
+          
+def func(Y):          # Y and Z assigned in function: locals
+    # local scope
+    Z = X + Y         # X is not assigned, so it's a global
+    return Z
+
+func(1)               # func in module: result=100
+
+
+
+
+>>> import __builtin__
+>>> dir(__builtin__)
+
+>>> zip                     # the normal way
+<built-in function zip>
+
+>>> import __builtin__      # the hard way
+>>> __builtin__.zip
+<built-in function zip>
+
+
+
+
+X = 88          # global X
+
+def func():
+    X = 99      # local X: hides global
+
+func()
+print X         # prints 88: unchanged
+
+
+
+
+X = 88          # global X
+
+def func():
+    global X
+    X = 99      # global X: outside def
+
+func()
+print X         # prints 99
+
+
+
+
+y, z = 1, 2         # global variables in module
+
+def all_global():
+    global x        # declare globals assigned
+    x = y + z       # no need to declare y,z: 3-scope rule 
+
+
+
+
+def f1():
+    x = 88
+    def f2():
+        print x
+    f2()
+
+f1()                  # prints 88
+
+
+
+
+def f1():
+    x = 88
+    def f2():
+        print x
+    return f2
+
+action = f1()            # make, return function
+action()                 # call it now: prints 88
+
+
+
+
+def f1():
+    x = 88
+    def f2(x=x):
+        print x
+    f2()
+
+f1()                  # prints 88
+
+
+
+
+>>> def f1():
+...     x = 88
+...     f2(x)
+...
+>>> def f2(x):
+...     print x
+...
+>>> f1()
+88
+
+
+
+
+def func():
+    x = 4
+    action = (lambda n: x ** n)          # x in enclosing def
+    return action
+
+x = func()
+print x(2) # prints 16
+
+
+
+
+def func():
+    x = 4
+    action = (lambda n, x=x: x ** n)     # pass x in manually
+
+
+
+
+>>> def f1():
+...     x = 99
+...     def f2():
+...         def f3():
+...             print x       # found in f1's local scope!
+...         f3()
+...     f2()
+...
+>>> f1()
+99
+
+
+
+
+>>> def changer(x, y):     # function
+...    x = 2               # changes local name's value only
+...    y[0] = 'spam'       # changes shared object in place
+...
+>>> X = 1
+>>> L = [1, 2]             # caller
+>>> changer(X, L)          # pass immutable and mutable
+>>> X, L                   # X unchanged, L is different
+(1, ['spam', 2])
+
+
+L = [1, 2]
+changer(X, L[:])       # pass a copy, so my L does not change
+
+def changer(x, y):
+   y = y[:]            # copy input list so I don't impact caller
+   x = 2
+   y[0] = 'spam'       # changes my list copy only
+
+L = [1, 2]
+changer(X, tuple(L))   # pass a tuple, so changes are errors
+
+
+
+
+>>> def multiple(x, y):
+...     x = 2                    # changes local names only
+...     y = [3, 4]
+...     return x, y              # return new values in a tuple
+...
+>>> X = 1
+>>> L = [1, 2]
+>>> X, L = multiple(X, L)        # assign results to caller's names
+>>> X, L
+(2, [3, 4])
+
+
+
+
+>>> def f(a, b, c): print a, b, c
+...
+
+>>> f(1, 2, 3)
+1 2 3
+
+>>> f(c=3, b=2, a=1)
+1 2 3
+
+>>> f(1, c=3, b=2)
+1 2 3
+
+>>> def f(a, b=2, c=3): print a, b, c
+...
+
+>>> f(1)
+1 2 3
+>>> f(a=1)
+1 2 3
+
+>>> f(1, 4)
+1 4 3
+>>> f(1, 4, 5)
+1 4 5
+
+>>> f(1, c=6)
+1 2 6
+
+>>> def f(*args): print args
+
+>>> f()
+()
+>>> f(1)
+(1,)
+>>> f(1,2,3,4)
+(1, 2, 3, 4)
+
+>>> def f(**args): print args
+...
+>>> f()
+{}
+>>> f(a=1, b=2)
+{'a': 1, 'b': 2}
+
+>>> def f(a, *pargs, **kargs): print a, pargs, kargs
+...
+>>> f(1, 2, 3, x=1, y=2)
+1 (2, 3) {'y': 2, 'x': 1}
+
+
+
+
+def func(spam, eggs, toast=0, ham=0):   # first 2 required
+    print (spam, eggs, toast, ham)
+
+func(1, 2)                              # output: (1, 2, 0, 0)
+func(1, ham=1, eggs=0)                  # output: (1, 0, 0, 1)
+func(spam=1, eggs=0)                    # output: (1, 0, 0, 0)
+func(toast=1, eggs=2, spam=3)           # output: (3, 2, 1, 0)
+func(1, 2, 3, 4)                        # output: (1, 2, 3, 4)
+
+
+
+
+# see file mins.py in this directory
+
+# see file minmax.py in this directory
+
+# see file inter2.py
+
+% python
+>>> from inter2 import intersect, union
+>>> s1, s2, s3 = "SPAM", "SCAM", "SLAM"
+
+>>> intersect(s1, s2), union(s1, s2)           # 2 operands
+(['S', 'A', 'M'], ['S', 'P', 'A', 'M', 'C'])
+
+>>> intersect([1,2,3], (1,4))                  # mixed types 
+[1]
+
+>>> intersect(s1, s2, s3)                      # 3 operands
+['S', 'A', 'M']
+
+>>> union(s1, s2, s3)
+['S', 'P', 'A', 'M', 'C', 'L']
+
+
+
+
+
+
+
+
+
+
+
+

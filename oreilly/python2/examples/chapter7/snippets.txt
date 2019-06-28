@@ -1,0 +1,191 @@
+>>> (1, 2) + (3, 4)             # concatenation
+(1, 2, 3, 4)
+
+>>> (1, 2) * 4                  # repitition
+(1, 2, 1, 2, 1, 2, 1, 2)
+
+>>> T = (1, 2, 3, 4)            # indexing, slicing
+>>> T[0], T[1:3]
+(1, (2, 3))
+
+>>> x = (40)         # an integer
+>>> x
+40
+>>> y = (40,)        # a tuple containing an integer
+>>> y
+(40,)
+
+>>> T = ('cc', 'aa', 'dd', 'bb')
+>>> tmp = list(T)
+>>> tmp.sort()
+>>> tmp
+['aa', 'bb', 'cc', 'dd']
+>>> T = tuple(tmp)
+>>> T
+('aa', 'bb', 'cc', 'dd')
+
+>>> T = (1, [2, 3], 4)
+>>> T[1][0] = 'spam'                  # works
+>>> T
+(1, ['spam', 3], 4)
+>>> T[1] = 'spam'                     # fails
+TypeError: object doesn't support item assignment
+
+
+
+
+
+>>> myfile = open('myfile', 'w')             # open for output (creates)
+>>> myfile.write('hello text file\n')        # write a line of text
+>>> myfile.close()
+
+>>> myfile = open('myfile', 'r')             # open for input
+>>> myfile.readline()                        # read the line back
+'hello text file\n'
+>>> myfile.readline()                        # empty string: end of file
+''
+
+
+
+
+>>> L = ['abc', [(1, 2), ([3], 4)], 5]
+>>> L[1]
+[(1, 2), ([3], 4)]
+>>> L[1][1]
+([3], 4)
+>>> L[1][1][0]
+[3]
+>>> L[1][1][0][0]
+3
+
+
+
+
+>>> X = [1, 2, 3]
+>>> L = ['a', X, 'b']           # embed references to X's object
+>>> D = {'x':X, 'y':2}
+
+>>> X[1] = 'surprise'         # changes all three references!
+>>> L
+['a', [1, 'surprise', 3], 'b']
+>>> D
+{'x': [1, 'surprise', 3], 'y': 2}
+
+>>> L = [1,2,3]
+>>> D = {'a':1, 'b':2}
+
+>>> A = L[:]              # instead of: A = L (or list(L))
+>>> B = D.copy()          # instead of: B = D
+
+>>> A[1] = 'Ni'
+>>> B['c'] = 'spam'
+>>>
+>>> L, D
+([1, 2, 3], {'a': 1, 'b': 2})
+>>> A, B
+([1, 'Ni', 3], {'a': 1, 'c': 'spam', 'b': 2})
+
+>>> X = [1, 2, 3]
+>>> L = ['a', X[:], 'b']          # emded copies of X's object
+>>> D = {'x':X[:], 'y':2}
+
+
+
+
+>>> L1 = [1, ('a', 3)]         # same value, unique objects
+>>> L2 = [1, ('a', 3)]
+>>> L1 == L2, L1 is L2         # equivalent?, same object?
+(1, 0)                 
+
+>>> S1 = 'spam'
+>>> S2 = 'spam'
+>>> S1 == S2, S1 is S2
+(1, 1)
+
+>>> S1 = 'a longer string'
+>>> S2 = 'a longer string'
+>>> S1 == S2, S1 is S2
+(1, 0)
+
+>>> L1 = [1, ('a', 3)]
+>>> L2 = [1, ('a', 2)]
+>>> L1 < L2, L1 == L2, L1 > L2     # less,equal,greater: tuple of results
+(0, 0, 1)
+
+>>> L = [None] * 100
+>>>
+>>> L
+[None, None, None, None, None, None, None, . . . ]
+
+isinstance([1],list)
+type([1])==list
+type([1])==type([])
+type([1])==types.ListType
+
+
+
+
+>>> L = [1, 2, 3]
+>>> M = ['X', L, 'Y']       # embed a reference to L
+>>> M
+['X', [1, 2, 3], 'Y']
+>>> L[1] = 0                # changes M too
+>>> M
+['X', [1, 0, 3], 'Y']
+
+>>> L = [1, 2, 3]
+>>> M = ['X', L[:], 'Y']       # embed a copy of L
+>>> L[1] = 0                   # only changes L, not M 
+>>> L
+[1, 0, 3]
+>>> M
+['X', [1, 2, 3], 'Y']
+
+
+
+
+>>> L = [4, 5, 6]
+>>> X = L * 4           # like [4, 5, 6] + [4, 5, 6] + ...
+>>> Y = [L] * 4         # [L] + [L] + ... = [L, L,...]
+
+>>> X
+[4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6]
+>>> Y
+[[4, 5, 6], [4, 5, 6], [4, 5, 6], [4, 5, 6]]
+
+>>> L[1] = 0            # impacts Y but not X
+>>> X
+[4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6]
+>>> Y
+[[4, 0, 6], [4, 0, 6], [4, 0, 6], [4, 0, 6]]
+
+
+
+
+>>> L = ['grail']              # append reference to same object
+>>> L.append(L)                # generates cycle in object: [...]
+>>> L
+['grail', [...]]
+
+
+
+
+T = (1, 2, 3)
+T[2] = 4             # error!
+T = T[:2] + (4,)     # okay: (1, 2, 4)
+
+
+
+
+>>> X = 'spam'
+>>> Y = 'eggs'
+>>> X, Y = Y, X
+
+>>> D = {}
+>>> D[1] = 'a'
+>>> D[2] = 'b'
+
+>>> D[(1, 2, 3)] = 'c'
+>>> D
+{1: 'a', 2: 'b', (1, 2, 3): 'c'}
+

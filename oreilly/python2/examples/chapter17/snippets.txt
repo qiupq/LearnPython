@@ -1,0 +1,50 @@
+# see the dir1 directory package, and its subdirectory dir2
+
+>>> import dir1.dir2.mod      # first imports run init files
+dir1 init
+dir2 init
+in mod.py
+>>>
+>>> import dir1.dir2.mod      # later imports do not
+>>>
+>>> reload(dir1)
+dir1 init
+<module 'dir1' from 'dir1\__init__.pyc'>
+>>>
+>>> reload(dir1.dir2)
+dir2 init
+<module 'dir1.dir2' from 'dir1\dir2\__init__.pyc'>
+
+>>> dir1
+<module 'dir1' from 'dir1\__init__.pyc'>
+>>> dir1.dir2
+<module 'dir1.dir2' from 'dir1\dir2\__init__.pyc'>
+>>> dir1.dir2.mod
+<module 'dir1.dir2.mod' from 'dir1\dir2\mod.pyc'>
+
+>>> dir1.x
+1
+>>> dir1.dir2.y
+2
+>>> dir1.dir2.mod.z
+3
+
+>>> dir2.mod
+NameError: name 'dir2' is not defined
+>>> mod.z
+NameError: name 'mod' is not defined
+
+>>> from dir1.dir2 import mod       # code the path here only
+dir1 init
+dir2 init
+in mod.py
+>>> mod.z                           # don't repeat path
+3
+>>> from dir1.dir2.mod import z
+>>> z
+3
+>>> import dir1.dir2.mod as mod     # use shorter name
+>>> mod.z
+3
+
+

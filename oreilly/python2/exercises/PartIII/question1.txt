@@ -1,0 +1,26 @@
+>>> S = 'spam'
+>>> for c in S:
+...     print ord(c)
+...
+115
+112
+97
+109
+
+
+>>> x = 0
+>>> for c in S: x = x + ord(c)     # Or: x += ord(c)
+...
+>>> x
+433
+
+
+>>> x = []
+>>> for c in S: x.append(ord(c))
+...
+>>> x
+[115, 112, 97, 109]
+
+
+>>> map(ord, S)
+[115, 112, 97, 109]

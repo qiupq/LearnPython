@@ -1,0 +1,460 @@
+>>> class SharedData:
+...     spam = 42               # generates a class attribute
+...
+>>> x = SharedData()            # make 2 instances
+>>> y = SharedData()
+>>> x.spam, y.spam              # they inherit and share spam
+(42, 42)
+
+>>> SharedData.spam = 99
+>>> x.spam, y.spam, SharedData.spam
+(99, 99, 99)
+
+>>> x.spam = 88
+>>> x.spam, y.spam, SharedData.spam
+(88, 99, 99)
+
+
+
+
+class MixedNames:                          # define class
+    data = 'spam'                          # assign class attr
+    def __init__(self, value):             # assign method name
+        self.data = value                  # assign instance attr
+    def display(self):
+        print self.data, MixedNames.data   # instance attr, class attr
+
+>>> x = MixedNames(1)           # make two instance objects
+>>> y = MixedNames(2)           # each has its own data
+>>> x.display(); y.display()    # self.data differs, Subclass.data same
+1 spam
+2 spam
+
+
+
+
+class NextClass:                            # define class
+    def printer(self, text):                # define method
+        self.message = text                 # change instance
+        print self.message                  # access instance
+
+>>> x = NextClass()                         # make instance
+
+>>> x.printer('instance call')              # call its method
+instance call
+
+>>> x.message                               # instance changed
+'instance call'
+
+>>> NextClass.printer(x, 'class call')      # direct class call
+class call
+
+>>> x.message                               # instance changed again
+'class call'
+
+>>> NextClass.printer('bad call')
+TypeError: unbound method printer() must be called with NextClass instance
+
+
+
+
+class Super:
+    def __init__(self, x): 
+        …default code…
+
+class Sub(Super):
+    def __init__(self, x, y):
+        Super.__init__(self, x)        # run superclass init
+        …custom code…                  # do my init actions
+
+I = Sub(1, 2)
+
+
+
+
+>>> class Super:
+...     def method(self):
+...         print 'in Super.method'
+... 
+>>> class Sub(Super):
+...     def method(self):                       # override method
+...         print 'starting Sub.method'         # add actions here
+...         Super.method(self)                  # run default action
+...         print 'ending Sub.method'
+... 
+
+>>> x = Super()            # make a Super instance
+>>> x.method()             # runs Super.method
+in Super.method
+
+>>> x = Sub()              # make a Sub instance
+>>> x.method()             # runs Sub.method, which calls Super.method
+starting Sub.method
+in Super.method
+ending Sub.method
+
+
+
+
+# see specialize.py
+
+
+
+
+class Super:
+    def method(self):
+        print 'in Super.method'
+    def delegate(self):
+        self.action()
+    def action(self):
+        assert 0, 'action must be defined!'
+
+
+
+
+# see number.py
+
+>>> from number import Number               # fetch class from module
+>>> X = Number(5)                           # Number.__init__(X, 5)
+>>> Y = X - 2                               # Number.__sub__(X, 2)
+>>> Y.data                                  # Y is new Number instance
+3
+
+
+
+
+>>> class indexer:
+...     def __getitem__(self, index):
+...         return index ** 2
+...
+>>> X = indexer()
+>>> X[2]                        # X[i] calls __getitem__(X, i)
+4
+>>> for i in range(5): 
+...     print X[i],             
+...
+0 1 4 9 16
+
+
+
+
+>>> class stepper:
+...     def __getitem__(self, i):
+...         return self.data[i]
+...
+>>> X = stepper()              # X is a stepper object
+>>> X.data = "Spam"
+>>>
+>>> X[1]                       # indexing calls __getitem__
+'p'
+>>> for item in X:             # for loops call __getitem__
+...     print item,            # for indexes items 0..N
+...
+S p a m
+
+
+
+
+>>> 'p' in X                   # all call __getitem__ too
+1
+
+>>> [c for c in X]             # list comprehension
+['S', 'p', 'a', 'm']
+
+>>> map(None, X)               # map calls
+['S', 'p', 'a', 'm']
+
+>>> (a,b,c,d) = X              # sequence assignments
+>>> a, c, d
+('S', 'a', 'm')
+
+>>> list(X), tuple(X), ''.join(X)
+(['S', 'p', 'a', 'm'], ('S', 'p', 'a', 'm'), 'Spam')
+
+>>> X
+<__main__.stepper instance at 0x00A8D5D0>
+
+
+
+
+# see iters.py here
+
+>>> from iters import Squares
+>>> for i in Squares(1,5):
+...     print i,
+...
+1 4 9 16 25
+
+>>> X = Squares(1,5)
+>>> X[1]
+AttributeError: Squares instance has no attribute '__getitem__'
+
+>>> X = Squares(1,5)
+>>> [n for n in X]                     # exhausts items
+[1, 4, 9, 16, 25]
+>>> [n for n in X]                     # now it's empty
+[]
+>>> [n for n in Squares(1,5)]
+[1, 4, 9, 16, 25]
+>>> list(Squares(1,3))
+[1, 4, 9]
+
+>>> from __future__ import generators    # need in 2.2
+>>>
+>>> def gsquares(start, stop):
+...     for i in range(start, stop+1):
+...         yield i ** 2
+...
+>>> for i in gsquares(1, 5):
+...     print i,
+...
+1 4 9 16 25
+
+>>> [x ** 2 for x in range(1, 6)]
+[1, 4, 9, 16, 25]
+
+
+
+
+>>> class empty:
+...     def __getattr__(self, attrname):
+...         if attrname == "age":
+...             return 41
+...         else:
+...             raise AttributeError, attrname
+...
+>>> X = empty()
+>>> X.age
+40
+>>> X.name
+…error text omitted…
+AttributeError: name
+
+
+>>> class accesscontrol:
+...     def __setattr__(self, attr, value):
+...         if attr == 'age':
+...             self.__dict__[attr] = value
+...         else:
+...             raise AttributeError, attr + ' not allowed'
+...
+>>> X = accesscontrol()
+>>> X.age = 40                     # calls __setattr__
+>>> X.age
+40
+>>> X.name = 'mel'
+…text ommitted…
+AttributeError: name not allowed
+
+
+
+
+>>> class adder:
+...     def __init__(self, value=0):
+...         self.data = value                  # initialize data
+...     def __add__(self, other):
+...         self.data += other                 # add other in-place
+
+>>> class addrepr(adder):                      # inherit __init__, __add__
+...     def __repr__(self):                    # add string representation
+...         return 'addrepr(%s)' % self.data   # convert to string as code
+
+>>> x = addrepr(2)              # runs __init__
+>>> x + 1                       # runs __add__
+>>> x                           # runs __repr__
+addrepr(3)
+>>> print x                     # runs __repr__
+addrepr(3)
+>>> str(x), repr(x)             # run ___repr__
+('addrepr(3)', 'addrepr(3)')
+
+
+>>> class addstr(adder):            
+...     def __str__(self):                     # __str__ but no __repr__
+...         return '[Value: %s]' % self.data   # convert to nice string
+
+>>> x = addstr(3)
+>>> x + 1
+>>> x                                          # default repr
+<__main__.addstr instance at 0x00B35EF0>
+>>> print x                                    # runs __str__
+[Value: 4]
+>>> str(x), repr(x)
+('[Value: 4]', '<__main__.addstr instance at 0x00B35EF0>')
+
+
+>>> class addboth(adder):
+...     def __str__(self):
+...         return '[Value: %s]' % self.data   # user-friendly string
+...     def __repr__(self):
+...         return 'addboth(%s)' % self.data   # as-code string
+
+>>> x = addboth(4)
+>>> x + 1
+>>> x                                  # runs __repr__
+addboth(5)
+>>> print x                            # runs __str__
+[Value: 5]
+>>> str(x), repr(x)
+('[Value: 5]', 'addboth(5)')
+
+
+
+
+>>> class Commuter:
+...     def __init__(self, val):
+...         self.val = val
+...     def __add__(self, other):
+...         print 'add', self.val, other
+...     def __radd__(self, other):
+...         print 'radd', self.val, other
+...
+>>> x = Commuter(88)
+>>> y = Commuter(99)
+>>> x + 1                      # __add__:  instance + noninstance
+add 88 1
+>>> 1 + y                      # __radd__: noninstance + instance
+radd 99 1
+>>> x + y                      # __add__:  instance + instance
+add 88 <__main__.Commuter instance at 0x0086C3D8>
+
+
+
+
+>>> class Prod:
+...     def __init__(self, value):
+...         self.value = value
+...     def __call__(self, other):
+...         return self.value * other
+...
+>>> x = Prod(2)
+>>> x(3)
+6
+>>> x(4)
+8
+
+>>> class Prod:
+...     def __init__(self, value):
+...         self.value = value
+...     def comp(self, other):
+...         return self.value * other
+...
+>>> x = Prod(3)
+>>> x.comp(3)
+9
+>>> x.comp(4)
+12
+
+
+
+
+>>> class Life:
+...     def __init__(self, name='unknown'):
+...         print 'Hello', name
+...         self.name = name
+...     def __del__(self):
+...         print 'Goodbye', self.name
+...
+>>> brian = Life('Brian')
+Hello Brian
+>>> brian = 'loretta'
+Goodbye Brian
+
+
+
+
+# see manynames.py
+
+
+
+
+>>> class super:
+...     def hello(self):
+...         self.data1 = 'spam'
+...		
+>>> class sub(super):
+...     def hola(self):
+...         self.data2 = 'eggs'
+
+>>> X = sub()
+>>> X.__dict__
+{}
+
+>>> X.__class__
+<class __main__.sub at 0x00A48448>
+
+>>> sub.__bases__
+(<class __main__.super at 0x00A3E1C8>,)
+
+>>> super.__bases__
+()
+
+
+>>> Y = sub()
+
+>>> X.hello()
+>>> X.__dict__
+{'data1': 'spam'}
+
+>>> X.hola()
+>>> X.__dict__
+{'data1': 'spam', 'data2': 'eggs'}
+ 
+>>> sub.__dict__
+{'__module__': '__main__', '__doc__': None, 'hola': <function hola at
+ 0x00A47048>}
+
+>>> super.__dict__
+{'__module__': '__main__', 'hello': <function hello at 0x00A3C5A8>,
+ '__doc__': None}
+
+>>> sub.__dict__.keys(), super.__dict__.keys()
+(['__module__', '__doc__', 'hola'], ['__module__', 'hello', '__doc__'])
+
+>>> Y.__dict__
+{}
+
+>>> X.data1, X.__dict__['data1']
+('spam', 'spam')
+
+>>> X.data3 = 'toast'
+>>> X.__dict__
+{'data1': 'spam', 'data3': 'toast', 'data2': 'eggs'}
+
+>>> X.__dict__['data3'] = 'ham'
+>>> X.data3
+'ham'
+
+>>> X.__dict__
+{'data1': 'spam', 'data3': 'ham', 'data2': 'eggs'}
+>>> X.__dict__.keys()
+['data1', 'data3', 'data2']
+
+>>>> dir(X)
+['__doc__', '__module__', 'data1', 'data2', 'data3', 'hello', 'hola']
+>>> dir(sub)
+['__doc__', '__module__', 'hello', 'hola']
+>>> dir(super)
+['__doc__', '__module__', 'hello']
+
+
+
+
+# see file classtree.py here
+
+>>> class Emp: pass
+>>> class Person(Emp): pass
+>>> bob = Person()
+>>> import classtree
+>>> classtree.instancetree(bob)
+Tree of <__main__.Person instance at 0x00AD34E8>
+... Person
+...... Emp
+
+
+
+
+
+
+
+

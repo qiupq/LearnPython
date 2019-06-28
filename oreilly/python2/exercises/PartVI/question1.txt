@@ -1,0 +1,26 @@
+use adder.py in this directory
+
+% python
+>>> from adder import *
+>>> x = Adder( )
+>>> x.add(1, 2)
+not implemented!
+>>> x = ListAdder( )
+>>> x.add([1], [2])
+[1, 2]
+>>> x = DictAdder( )
+>>> x.add({1:1}, {2:2})
+{1: 1, 2: 2}
+>>> x = Adder([1])
+>>> x + [2]
+not implemented!
+>>>
+>>> x = ListAdder([1])
+>>> x + [2]
+[1, 2]
+>>> [2] + x
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+TypeError: __add__ nor __radd__ defined for these operands
+
+see adder2.py for the 1-argument alternative

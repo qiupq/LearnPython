@@ -1,0 +1,257 @@
+% python
+>>> len([1, 2, 3])                    # length
+3
+>>> [1, 2, 3] + [4, 5, 6]             # concatenation
+[1, 2, 3, 4, 5, 6]
+>>> ['Ni!'] * 4                       # repetition
+['Ni!', 'Ni!', 'Ni!', 'Ni!']
+>>> 3 in [1, 2, 3]                    # membership (1 means true)
+1
+>>> for x in [1, 2, 3]: print x,      # iteration
+...
+1 2 3
+
+>>> `[1, 2]` + "34"         # same as "[1, 2]" + "34"
+'[1, 2]34'
+>>> [1, 2] + list("34")     # same as [1, 2] + ["3", "4"]
+[1, 2, '3', '4'] 
+
+
+
+
+>>> L = ['spam', 'Spam', 'SPAM!']
+>>> L[2]                               # offsets start at zero
+'SPAM!'
+>>> L[-2]                              # negative: count from the right
+'Spam'
+>>> L[1:]                              # slicing fetches sections
+['Spam', 'SPAM!']
+
+>>> matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+>>> matrix[1]
+[4, 5, 6]
+>>> matrix[1][1]
+5
+>>> matrix[2][0]
+7 
+>>> matrix = [[1, 2, 3],
+...           [4, 5, 6],
+...           [7, 8, 9]]
+>>> matrix[1][1]
+5
+
+
+
+
+>>> L = ['spam', 'Spam', 'SPAM!']
+>>> L[1] = 'eggs'                  # index assignment
+>>> L
+['spam', 'eggs', 'SPAM!']
+>>> L[0:2] = ['eat', 'more']       # slice assignment: delete+insert
+>>> L                              # replaces items 0,1
+['eat', 'more', 'SPAM!']
+
+>>> L.append('please')                # append method call
+>>> L
+['eat', 'more', 'SPAM!', 'please']
+>>> L.sort()                          # sort list items ('S' < 'e')
+>>> L
+['SPAM!', 'eat', 'more', 'please']
+
+>>> L = [1, 2]
+>>> L.extend([3,4,5])      # append multiple items
+>>> L
+[1, 2, 3, 4, 5]
+>>> L.pop()                # delete, return last item
+5
+>>> L
+[1, 2, 3, 4]
+>>> L.reverse()            # in-place reversal
+>>> L
+[4, 3, 2, 1]
+
+>>> L = []
+>>> L.append(1)                    # push onto stack
+>>> L.append(2)
+>>> L
+[1, 2]
+>>> L.pop()                        # pop off stack
+2
+>>> L
+[1]
+
+>>> L
+['SPAM!', 'eat', 'more', 'please']
+>>> del L[0]                       # delete one item
+>>> L
+['eat', 'more', 'please']
+>>> del L[1:]                      # delete an entire section
+>>> L                              # same as L[1:] = []
+['eat']
+
+>>> L = ['Already', 'got', 'one']
+>>> L[1:] = []
+>>> L
+['Already']
+>>> L[0] = []
+>>> L
+[[]]
+
+
+
+
+
+>>> d2 = {'spam': 2, 'ham': 1, 'eggs': 3}    # make a dictionary
+>>> d2['spam']                               # fetch value by key
+2
+>>> d2                                       # order is scrambled
+{'eggs': 3, 'ham': 1, 'spam': 2}
+
+>>> len(d2)                    # number of entries in dictionary
+3
+>>> d2.has_key('ham')          # key membership test (1 means true)
+1
+>>> 'ham' in d3                # key membership test alternative
+1
+>>> d2.keys()                  # create a new list of my keys
+['eggs', 'ham', 'spam']
+
+>>> d2['ham'] = ['grill', 'bake', 'fry']      # change entry
+>>> d2
+{'eggs': 3, 'spam': 2, 'ham': ['grill', 'bake', 'fry']}
+
+>>> del d2['eggs']                            # delete entry
+>>> d2
+{'spam': 2, 'ham': ['grill', 'bake', 'fry']}
+
+>>> d2['brunch'] = 'Bacon'                    # add new entry
+>>> d2
+{'brunch': 'Bacon', 'spam': 2, 'ham': ['grill', 'bake', 'fry']}
+
+
+
+
+
+>>> d2.values(), d2.items()
+([3, 1, 2], [('eggs', 3), ('ham', 1), ('spam', 2)])
+
+>>> d2.get('spam'), d2.get('toast'), d2.get('toast', 88)
+(2, None, 88)
+
+>>> d2
+{'eggs': 3, 'ham': 1, 'spam': 2}
+>>> d3 = {'toast':4, 'muffin':5}
+>>> d2.update(d3)
+>>> d2
+{'toast': 4, 'muffin': 5, 'eggs': 3, 'ham': 1, 'spam': 2}
+
+
+
+
+
+>>> table = {'Python':  'Guido van Rossum',
+...          'Perl':    'Larry Wall',
+...          'Tcl':     'John Ousterhout' }
+...
+>>> language = 'Python'
+>>> creator  = table[language]
+>>> creator
+'Guido van Rossum'
+
+>>> for lang in table.keys(): 
+...     print lang, '\t', table[lang]
+...
+Tcl     John Ousterhout
+Python  Guido van Rossum
+Perl    Larry Wall
+
+
+
+
+>>> L = []
+>>> L[99] = 'spam'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+IndexError: list assignment index out of range
+
+>>> D = {}
+>>> D[99] = 'spam'
+>>> D[99]
+'spam'
+>>> D
+{99: 'spam'}
+
+
+
+
+>>> Matrix = {}
+>>> Matrix[(2,3,4)] = 88
+>>> Matrix[(7,8,9)] = 99
+>>>
+>>> X = 2; Y = 3; Z = 4              # ; separates statements
+>>> Matrix[(X,Y,Z)]
+88
+>>> Matrix
+{(2, 3, 4): 88, (7, 8, 9): 99}
+
+>>> Matrix[(2,3,6)]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+KeyError: (2, 3, 6)
+
+>>> if Matrix.has_key((2,3,6)):     # check for key before fetch
+...     print Matrix[(2,3,6)]
+... else:
+...     print 0
+...
+0
+>>> try:
+...     print Matrix[(2,3,6)]       # try to index
+... except KeyError:                # catch and recover
+...     print 0
+...
+0 
+>>> Matrix.get((2,3,4), 0)          # exists-fetch and return
+88 
+>>> Matrix.get((2,3,6), 0)          # doesn’t exist-use default arg
+0
+
+
+
+
+>>> rec = {}
+>>> rec['name'] = 'mel'
+>>> rec['age']  = 41
+>>> rec['job']  = 'trainer/writer'
+>>>
+>>> print rec['name']
+mel
+
+>>> mel = {'name': 'Mark',
+...        'jobs': ['trainer', 'writer'],
+...        'web':  'www.rmi.net/~lutz',
+...        'home': {'state': 'CO', 'zip':80501}}
+
+>>> mel['name']
+'Mark'
+>>> mel['jobs']
+['trainer', 'writer']
+>>> mel['jobs'][1]
+'writer'
+>>> mel['home']['zip']
+
+
+
+
+import anydbm
+file = anydbm.open("filename") # link to file
+file['key'] = 'data'           # store data by key
+data = file['key']             # fetch data by key
+
+import cgi
+form = cgi.FieldStorage()    # parse form data
+if form.has_key('name'):
+    showReply('Hello, ' + form['name'].value)
+
+

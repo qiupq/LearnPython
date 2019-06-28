@@ -1,0 +1,198 @@
+>>> def fetcher(obj, index):
+...     return obj[index]
+
+>>> x = 'spam'
+>>> fetcher(x, 3)           # like x[3]
+'m'
+
+>>> fetcher(x, 4)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  File "<stdin>", line 2, in fetcher
+IndexError: string index out of range
+
+
+>>> try:
+...     fetcher(x, 4)
+... except IndexError:
+...     print 'got exception'
+...
+got exception
+>>>
+
+
+>>> def catcher():
+...     try:
+...         fetcher(x, 4)
+...     except IndexError:
+...         print 'got exception'
+...     print 'continuing'
+...
+>>> catcher()
+got exception
+continuing
+>>>
+
+
+>>> bad = 'bad'
+>>> try:
+...     raise bad
+... except bad:
+...     print 'got bad'
+...
+got bad
+
+
+>>> raise bad
+Traceback (most recent call last):
+  File "<pyshell#18>", line 1, in ?
+    raise bad
+bad
+
+
+>>> class Bad: pass
+...
+>>> def doomed(): raise Bad()
+...
+>>> try:
+...     doomed()
+... except Bad:
+...     print 'got Bad'
+...
+got Bad
+>>>
+
+
+>>> try:
+...     fetcher(x, 3)
+... finally:
+...     print 'after fetch'
+...
+'m'
+after fetch
+
+
+>>> def after():
+...     try:
+...         fetcher(x, 4)
+...     finally:
+...         print 'after fetch'
+...     print 'after try?'
+...
+>>> after()
+after fetch
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  File "<stdin>", line 3, in after
+  File "<stdin>", line 2, in fetcher
+IndexError: string index out of range
+
+
+>>> def after():
+...     try:
+...         fetcher(x, 3)
+...     finally:
+...         print 'after fetch'
+...     print 'after try?'
+...
+>>> after()
+after fetch
+after try?
+>>>
+
+
+
+
+# see file bad.py in this directory
+
+
+
+
+def kaboom(x, y):
+    print x + y                    # trigger TypeError
+
+try:
+    kaboom([0,1,2], "spam")
+except TypeError:                  # catch and recover here
+    print 'Hello world!'
+print 'resuming here'              # continue here if exception or not
+
+
+
+
+MyError = "my error"
+
+def stuff(file):
+    raise MyError
+
+file = open('data', 'r')     # open an existing file
+try:
+    stuff(file)              # raises exception
+finally:
+    file.close()             # always close file
+...                          # continue here if no exception
+
+
+
+
+MyBad = "oops"
+
+def stuff():
+    raise MyBad              # trigger exception manuially
+
+try:
+    stuff()                  # raises exception
+except MyBad:
+    print 'got it'           # handle exception here
+...                          # resume execution here
+
+
+
+
+# see raisedata.py
+
+>>> from raisedata import *
+>>> tryer(raiser1)                  # explicitly passed extra data
+got this: hello
+>>> tryer(raiser2)                  # extra data is None by default
+got this: None
+
+
+
+
+>>> try:
+...     raise IndexError, 'spam'
+... except IndexError:
+...     print 'propagating'
+...     raise
+...
+propagating
+Traceback (most recent call last):
+  File "<stdin>", line 2, in ?
+IndexError: spam
+
+
+
+# see file asserter.py
+
+% python
+>>> import asserter
+>>> asserter.f(1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  File "asserter.py", line 2, in f
+    assert x < 0, 'x must be negative'
+AssertionError: x must be negative
+
+
+def reciprocal(x):
+    assert x != 0     # a useless assert!
+    return 1 / x      # python checks for zero automatically
+
+
+
+
+
+
+
+

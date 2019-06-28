@@ -1,0 +1,73 @@
+class C2: …            # make class objects (ovals)
+class C3: …
+class C1(C2, C3): …    # links to superclasses
+
+I1 = C1()              # make instance objects (rectangles)
+I2 = C1()              # linked to their class
+
+
+
+
+class C1(C2, C3):               # make and link class C1
+    def setname(self, who):     # assign name: C1.setname
+        self.name = who         # self is either I1 or I2
+
+I1 = C1()                       # make two instances
+I2 = C1()
+I1.setname('bob')               # sets I1.name to 'bob'
+I2.setname('mel')               # sets I2.name to 'mel'
+print I1.name                   # prints 'bob'
+
+
+
+
+class C1(C2, C3):              
+    def __init__(self, who):    # set name when constructed
+        self.name = who         # self is either I1 or I2
+
+I1 = C1('bob')                  # sets I1.name to 'bob'
+I2 = C1('mel')                  # sets I2.name to 'mel'  
+
+
+
+
+class Employee:                    # general superclass
+    def computeSalary(self): …     # common or default behavior
+    def giveRaise(self): …
+    def promote(self): …
+    def retire(self): …
+
+class Engineer(Employee):          # specialized subclass
+     def computeSalary(self): …    # something custom here
+
+bob = Employee()                   # default behavior
+mel = Engineer()                   # custom salary calculator
+
+company = [bob, mel]               # a composite object
+for emp in company: 
+    print emp.computeSalary()      # run this object's version
+
+
+
+
+
+def processor(reader, converter, writer):
+    while 1:
+        data = reader.read()
+        if not data: break
+        data = converter(data)
+        writer.write(data)
+
+class Reader:
+    def read(self): …          # default behavior and tools
+    def other(self): …
+
+class FileReader(Reader):
+    def read(self): …          # read from a local file
+
+class SocketReader(Reader):
+    def read(self): …          # read from a network socket
+…
+processor(FileReader(…),   Converter,  FileWriter(…))
+processor(SocketReader(…), Converter,  TapeWriter(…))
+processor(FtpReader(…),    Converter,  XmlWriter(…))

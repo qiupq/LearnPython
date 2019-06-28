@@ -1,0 +1,36 @@
+>>> def times(x, y):      # create and assign function
+...     return x * y      # body executed when called
+...
+
+>>> times(2, 4)           # arguments in parentheses
+8
+
+>>> x = times(3.14, 4)    # save the result object
+>>> x
+12.56
+
+>>> times('Ni', 4)        # functions are 'typeless'
+'NiNiNiNi'
+
+
+
+# following also available as inter1.py in this directory
+
+
+def intersect(seq1, seq2):
+    res = []                     # start empty
+    for x in seq1:               # scan seq1
+        if x in seq2:            # common item?
+            res.append(x)        # add to end
+    return res
+
+>>> s1 = "SPAM"
+>>> s2 = "SCAM"
+
+>>> intersect(s1, s2)                   # strings
+['S', 'A', 'M']
+
+>>> x = intersect([1, 2, 3], (1, 4))    # mixed types
+>>> x                                   # saved result object
+[1]
+

@@ -1,0 +1,14 @@
+# put the following in modifyprompt.py
+
+import sys, os
+
+class MyPrompt:
+    def __init__(self, subprompt='>>> '):
+        self.lineno = 0
+        self.subprompt = subprompt
+    def __repr__(self):
+        self.lineno = self.lineno + 1
+        return os.getcwd()+'|%d'%(self.lineno)+self.subprompt
+
+sys.ps1 = MyPrompt()
+sys.ps2 = MyPrompt('... ')

@@ -1,0 +1,182 @@
+
+# see file nestexc.py here
+
+
+try:
+    try:
+        action2()
+    except TypeError:      # most recent matching try
+        print 'inner try'
+except TypeError:          # here only if nested handler reraises
+    print 'outer try'
+
+
+>>> try:
+...     try:
+...         raise IndexError
+...     finally:
+...         print 'spam'
+... finally:
+...     print 'SPAM'
+...
+spam
+SPAM
+Traceback (most recent call last):
+  File "<stdin>", line 3, in ?
+IndexError
+
+
+# see file except-finally.py
+
+
+
+
+while 1:
+    try:
+        line = raw_input()     # read line from stdin
+    except EOFError:
+        break                  # exit loop at end of file
+    else:
+        …process next line here…
+
+
+
+
+Found = "Item found"
+
+def searcher():
+    if …success…:
+        raise Found
+    else:
+        return
+
+try:
+    searcher()
+except Found:              # exception if item was found
+    …success…
+else:                      # else returned: not found
+    …failure…
+
+
+
+
+failure = "not found"
+
+def searcher():
+    if …success…:
+        return …founditem…
+    else:
+        raise failure
+
+try:
+    item = searcher()
+except failure:
+    …report…
+else:
+    …use item here…
+
+
+
+
+try:
+    …run program…
+except:                  # all uncaught exceptions come here
+    import sys
+    print 'uncaught!', sys.exc_type, sys.exc_value
+
+
+
+
+import sys
+log = open('testlog', 'a')
+from testapi import moreTests, runNextTest, testName
+
+def testdriver():
+    while moreTests():
+        try:
+            runNextTest()
+        except:
+            print >> log, 'FAILED', testName(), sys.exc_type
+        else:
+            print >> log, 'PASSED', testName()
+
+testdriver()
+
+
+
+
+def doStuff():       # Python code
+    doFirstThing()   # we don't care about exceptions here
+    doNextThing()    # so we don't need to detect them here
+    ...
+    doLastThing()
+
+if __name__ == '__main__':
+    try:
+        doStuff()    # this is where we care about results
+    except:          # so it's the only place we must check
+        badEnding()
+    else:
+        goodEnding()
+
+
+
+
+def func():
+    try:
+        …                # IndexError is raised in here
+    except:
+        …                # but everything comes here and dies!
+
+try:
+    func()
+except IndexError:       # needed here
+    …
+
+
+
+
+#see file exiter.py
+
+
+
+
+mydictionary = {…}
+…
+try:
+    x = myditctionary['spam']     # oops: misspelled 
+except:
+    x = None                      # assume we got KeyError
+…continue here…
+
+
+
+
+>>> ex1 = 'Error: Spam Exception'
+>>> ex2 = 'Error: Spam Exception'
+>>>
+>>> ex1 == ex2, ex1 is ex2
+(1, 0)
+
+
+>>> try:
+...    raise ex1
+... except ex1:
+...    print 'got it'
+...
+got it
+
+
+>>> try:
+...    raise ex1
+... except ex2:
+...    print 'Got it'
+...
+Traceback (innermost last):
+  File "<stdin>", line 2, in ?
+    raise ex1
+Error: Spam Exception
+
+
+
+

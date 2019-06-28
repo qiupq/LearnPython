@@ -1,0 +1,9 @@
+
+setenv PYTHONPATH /usr/home/pycode/utilities:/usr/lib/pycode/package1
+
+export PYTHONPATH="/usr/home/pycode/utilities:/usr/lib/pycode/package1"
+
+set PYTHONPATH=c:\pycode\utilities;d:\pycode\package1
+
+# see file mypath.pth
+

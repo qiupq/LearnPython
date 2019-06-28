@@ -1,0 +1,302 @@
+class C:
+    def meth(self, x):
+        …
+    def meth(self, x, y, z):
+        …
+
+class C:
+    def meth(self, *args):
+        if len(args) == 1:
+            …
+        elif type(arg[0]) == int:
+            …
+
+class C:
+    def meth(self, x):
+        x.operation()        # assume x does the right thing
+
+
+
+
+>>> rec = {}
+>>> rec['name'] = 'mel'
+>>> rec['age']  = 40
+>>> rec['job']  = 'trainer/writer'
+>>>
+>>> print rec['name']
+mel
+
+
+>>> class rec: pass
+...
+>>> rec.name = 'mel'
+>>> rec.age  = 40
+>>> rec.job  = 'trainer/writer'
+>>>
+>>> print rec.age
+40
+
+
+>>> class rec: pass
+...
+>>> pers1 = rec()
+>>> pers1.name = 'mel'
+>>> pers1.job  = 'trainer'
+>>> pers1.age   = 40
+>>>
+>>> pers2 = rec()
+>>> pers2.name = 'dave'
+>>> pers2.job  = 'developer'
+>>>
+>>> pers1.name, pers2.name
+('mel', 'dave')
+
+
+>>> class Person:
+...     def __init__(self, name, job):
+...         self.name = name
+...         self.job  = job
+...     def info(self):
+...         return (self.name, self.job)
+...
+>>> mark = Person('ml', 'trainer')
+>>> dave = Person('da', 'developer')
+>>>
+>>> mark.job, dave.info()
+('trainer', ('da', 'developer'))
+
+
+
+
+# see employees.py in this folder
+
+% python employees.py
+<Employee: name=bob, salary=50000>
+bob makes pizza
+<Employee: name=bob, salary=60000.0>
+
+Employee does stuff
+Chef makes food
+Server interfaces with customer
+PizzaRobot makes pizza
+
+
+
+
+# see pizzashop.py in this directory
+
+% python pizzashop.py
+Homer orders from <Employee: name=Pat, salary=40000>
+Bob makes pizza
+oven bakes
+Homer pays for item to <Employee: name=Pat, salary=40000>
+...
+Shaggy orders from <Employee: name=Pat, salary=40000>
+Bob makes pizza
+oven bakes
+Shaggy pays for item to <Employee: name=Pat, salary=40000>
+
+
+
+
+def processor(reader, converter, writer):
+    while 1:
+        data = reader.read()
+        if not data: break
+        data = converter(data)
+        writer.write(data)
+
+# see streams.py, converters.py, and spam.txt here
+
+% python converters.py
+SPAM
+SPAM
+SPAM!
+
+% python
+>>> import converters
+>>> prog = converters.Uppercase(open('spam.txt'), open('spamup.txt', 'w'))
+>>> prog.process()
+
+% type spamup.txt
+SPAM
+SPAM
+SPAM!
+
+% python
+>>> from converters import Uppercase
+>>>
+>>> class HTMLize:
+...     def write(self, line): 
+...         print '<PRE>%s</PRE>' % line[:-1]
+...
+>>> Uppercase(open('spam.txt'), HTMLize()).process()
+<PRE>SPAM</PRE>
+<PRE>SPAM</PRE>
+<PRE>SPAM!</PRE>
+
+
+
+
+import pickle
+object = someClass()
+file   = open(filename, 'wb')  # create external file
+pickle.dump(object, file)      # save object in file
+
+import pickle
+file   = open(filename, 'rb')
+object = pickle.load(file)     # fetch it back later
+
+import shelve
+object = someClass()
+dbase  = shelve.open('filename')
+dbase['key'] = object             # save under key
+
+import shelve
+dbase  = shelve.open('filename')
+object = dbase['key']             # fetch back later
+
+
+
+
+# see trace.py here
+
+>>> from trace import wrapper
+>>> x = wrapper([1,2,3])              # wrap a list
+>>> x.append(4)                       # delegate to list method
+Trace: append
+>>> x.wrapped                         # print my member
+[1, 2, 3, 4]
+
+>>> x = wrapper({"a": 1, "b": 2})     # wrap a dictionary
+>>> x.keys()                          # delegate to dictionary method
+Trace: keys
+['a', 'b']
+
+
+
+
+>>> class Spam:
+...     def __init__(self):               # no __repr__
+...         self.data1 = "food"
+...
+>>> X = Spam()
+>>> print X                               # default: class, address
+<__main__.Spam instance at 0x00864818>
+
+# see mytools.py here
+
+>>> from mytools import Lister
+>>> class Spam(Lister):
+...     def __init__(self):
+...         self.data1 = 'food'
+...
+>>> x = Spam()
+>>> x
+<Instance of Spam, address 8821568:
+        name data1=food
+>
+
+# see file testmixin.py here
+
+% python testmixin.py
+<Instance of Sub, address 7833392:
+        name data3=42
+        name data2=eggs
+        name data1=spam
+>
+
+>>> from mytools import Lister
+>>> class x(Lister):
+...     pass
+...
+>>> t = x()
+>>> t.a = 1; t.b = 2; t.c = 3
+>>> t
+<Instance of x, address 7797696:
+        name b=2
+        name a=1
+        name c=3
+>
+
+
+
+
+def factory(aClass, *args):                 # varargs tuple
+    return apply(aClass, args)              # call aClass
+
+class Spam:
+    def doit(self, message):
+        print message
+
+class Person:
+    def __init__(self, name, job):
+        self.name = name
+        self.job  = job
+
+object1 = factory(Spam)                      # make a Spam
+object2 = factory(Person, "Guido", "guru")   # make a Person
+
+
+def factory(aClass, *args, **kwargs):        # +kwargs dict
+    return apply(aClass, args, kwargs)       # call aClass
+
+
+
+
+class Spam:
+    def doit(self, message):
+        print message
+
+object1 = Spam()
+object1.doit('hello world')
+
+object1 = Spam()
+x = object1.doit        # bound method object: instance+function
+x('hello world')        # same effect as object1.doit('...')
+
+object1 = Spam()
+t = Spam.doit           # unbound method object
+t(object1, 'howdy')     # pass in instance
+
+
+class  Eggs:
+    def m1(self, n):
+        print n
+    def m2(self):
+        x = self.m1     # another bound method object
+        x(42)           # looks like a simple function
+
+Eggs().m2()             # prints 42
+
+
+
+
+# see docstr.py here
+
+>>> import docstr
+>>> docstr.__doc__
+'I am: docstr.__doc__'
+
+>>> docstr.spam.__doc__
+'I am: spam.__doc__ or docstr.spam.__doc__'
+
+>>> docstr.spam.method.__doc__
+'I am: spam.method.__doc__ or self.method.__doc__'
+
+>>> docstr.func.__doc__
+'I am: docstr.func.__doc__'
+
+
+
+
+
+
+
+
+
+
+
+
+
+

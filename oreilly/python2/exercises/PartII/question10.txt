@@ -1,0 +1,5 @@
+>>> me = {'name':('mark', 'e', 'lutz'), 'age':'?', 'job':'engineer'}
+>>> me['job']
+'engineer'
+>>> me['name'][2]
+'lutz'

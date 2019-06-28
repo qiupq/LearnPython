@@ -1,0 +1,40 @@
+% python
+>>> print 'Hello world!'
+Hello world!
+>>> print 2 ** 8
+256
+
+
+>>> lumberjack = 'okay'   
+>>> lumberjack
+'okay'
+>>> 2 ** 8
+256
+>>>                  
+
+
+% python                        Start Python
+>>> import myfile               Run file, load module as a whole
+>>> print myfile.title          Use its attribute names: '.' to qualify
+The Meaning of Life
+
+
+% python                        Start Python
+>>> from myfile import title    Run file, copy its names
+>>> print title                 Use name directly: no need to qualify
+The Meaning of Life
+
+
+% python
+>>> import threenames                  Grab the whole module
+dead parrot sketch
+>>>
+>>> threenames.b, threenames.c
+('parrot', 'sketch')
+>>>
+>>> from threenames import a, b, c     Copy multiple names
+>>> b, c
+('parrot', 'sketch')
+
+>>> dir(threenames)
+['__builtins__', '__doc__', '__file__', '__name__', 'a', 'b', 'c']

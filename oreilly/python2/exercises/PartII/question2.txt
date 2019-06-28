@@ -1,0 +1,14 @@
+>>> L = [1, 2, 3, 4]
+>>> L[4]
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+IndexError: list index out of range
+>>> L[-1000:100]
+[1, 2, 3, 4]
+>>> L[3:1]
+[]
+>>> L
+[1, 2, 3, 4]
+>>> L[3:1] = ['?']
+>>> L
+[1, 2, 3, '?', 4]

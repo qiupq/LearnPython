@@ -1,0 +1,11 @@
+create the directory structure described, using __init__.py in this directory
+directory mypkg here gives the full solution
+
+
+>> import mypkg.mymod
+initializing mypkg
+>>> mypkg.mymod.countLines('mypkg\mymod.py')
+13
+>>> from mypkg.mymod import countChars
+>>> countChars('mypkg\mymod.py')
+346

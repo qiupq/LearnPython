@@ -1,0 +1,20 @@
+>>> D = {'a':1, 'b':2, 'c':3}
+>>> D['a']
+1
+>>> D['d']
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+KeyError: d
+>>> D['d'] = 4
+>>> D
+{'b': 2, 'd': 4, 'a': 1, 'c': 3}
+>>>
+>>> L = [0,1]
+>>> L[2]
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+IndexError: list index out of range
+>>> L[2] = 3
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+IndexError: list assignment index out of range

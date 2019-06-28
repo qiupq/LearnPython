@@ -1,0 +1,88 @@
+>>> class FirstClass:                # define a class object
+...     def setdata(self, value):    # define class methods
+...         self.data = value        # self is the instance
+...     def display(self):
+...         print self.data          # self.data: per instance
+
+>>> x = FirstClass()                 # make two instances
+>>> y = FirstClass()                 # each is a new namespace
+
+>>> x.setdata("King Arthur")     # call methods: self is x
+>>> y.setdata(3.14159)           # runs: FirstClass.setdata(y, 3.14159)
+
+>>> x.display()                      # self.data differs in each
+King Arthur
+>>> y.display()
+3.14159
+
+>>> x.data = "New value"             # can get/set attributes 
+>>> x.display()                      # outside the class too
+New value
+
+>>> x.anothername = "spam"           # can get/set attributes 
+
+
+
+
+>>> class SecondClass(FirstClass):                    # inherits setdata
+...     def display(self):                            # changes display 
+...         print 'Current value = "%s"' % self.data
+
+>>> z = SecondClass()
+>>> z.setdata(42)           # setdata found in FirstClass
+>>> z.display()             # finds overridden method in SecondClass
+Current value = "42"
+
+>>> x.display()       # x is still a FirstClass instance (old message)
+New value
+
+
+
+
+# File: food.py
+var = 1         # food.var
+def func():     # food.func
+    …
+class spam:     # food.spam
+    …
+class ham:      # food.ham
+    …
+class eggs:     # food.eggs
+    …
+
+
+
+# see file person.py
+
+import person                # import module
+x = person.person()          # class within module
+
+from person import person    # get class from module
+x = person()                 # use class name
+
+
+
+
+>>> class ThirdClass(SecondClass):                # is-a SecondClass
+...     def __init__(self, value):                # on "ThirdClass(value)"
+...         self.data = value
+...     def __add__(self, other):                 # on "self + other"
+...         return ThirdClass(self.data + other)
+...     def __mul__(self, other):
+...         self.data = self.data * other         # on "self * other" 
+
+>>> a = ThirdClass("abc")     # new __init__ called
+>>> a.display()               # inherited method
+Current value = "abc"
+
+>>> b = a + 'xyz'             # new __add__: makes a new instance
+>>> b.display()
+Current value = "abcxyz"
+
+>>> a * 3                     # new __mul__: changes instance in-place
+>>> a.display()
+Current value = "abcabcabc"
+
+
+
+

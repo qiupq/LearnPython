@@ -1,0 +1,29 @@
+>>> class Meta:
+...     def __getattr__(self, name):
+...         print 'get', name
+...     def __setattr__(self, name, value):
+...         print 'set', name, value
+...
+>>> x = Meta( )
+>>> x.append
+get append
+>>> x.spam = "pork"
+set spam pork
+>>>
+>>> x + 2
+get __coerce__
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+TypeError: call of non-function
+
+>>> x[1]
+get __getitem__
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+TypeError: call of non-function
+
+>>> x[1:5]
+get __len__
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+TypeError: call of non-function

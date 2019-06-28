@@ -1,0 +1,51 @@
+# put the following in shell.py
+
+import cmd, os, sys, shutil
+
+class UnixShell(cmd.Cmd):
+    def do_EOF(self, line): 
+    """ The do_EOF command is called when the user presses Ctrl-D (unix)
+        or Ctrl-Z (PC). """
+    sys.exit()
+
+    def help_ls(self):
+        print "ls <directory>: list the contents of the specified directory"   
+        print " (current directory used by default)"
+
+    def do_ls(self, line):
+        # 'ls' by itself means 'list current directory'
+        if line == '': dirs = [os.curdir]
+        else: dirs = line.split()
+        for dirname in dirs:
+            print 'Listing of %s:' % dirname
+            print '\n'.join(os.listdir(dirname)
+
+    def do_cd(self, dirname):
+        # 'cd' by itself means 'go home'.
+        if dirname == '': dirname = os.environ['HOME']
+        os.chdir(dirname)
+
+    def do_mkdir(self, dirname):
+        os.mkdir(dirname)
+
+    def do_cp(self, line):
+        words = line.split()
+        sourcefiles,target = words[:-1], words[-1] # target could be a dir
+        for sourcefile in sourcefiles:
+            shutil.copy(sourcefile, target)
+
+    def do_mv(self, line):
+        source, target = line.split()
+        os.rename(source, target)
+
+    def do_rm(self, line):
+        [os.remove(arg) for arg in line.split()]      # builds results list
+        # for arg in line.split(): os.remove(arg)
+
+class DirectoryPrompt:
+    def __repr__(self):
+        return os.getcwd()+'> '
+
+cmd.PROMPT = DirectoryPrompt()
+shell = UnixShell()
+shell.cmdloop()

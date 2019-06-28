@@ -1,0 +1,2 @@
+use file primes.py in this directory
+see timer.py for the timing function

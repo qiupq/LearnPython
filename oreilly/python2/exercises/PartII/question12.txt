@@ -1,0 +1,2 @@
+>>> dir([])
+['append', 'count', 'index', 'insert', 'remove', 'reverse', 'sort',...]

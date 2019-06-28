@@ -1,0 +1,40 @@
+
+use setwrapper.py here
+
+% python
+>>> from setwrapper import Set
+>>> x = Set([1,2,3,4])
+>>> y = Set([3,4,5])
+>>> x & y
+Set:[3, 4]
+>>> x | y
+Set:[1, 2, 3, 4, 5]
+>>> z = Set("hello")
+>>> z[0], z[-1]
+('h', 'o')
+>>> for c in z: print c,
+...
+h e l o
+>>> len(z), z 
+(4, Set:['h', 'e', 'l', 'o'])
+>>> z & "mello", z | "mello"
+(Set:['e', 'l', 'o'], Set:['h', 'e', 'l', 'o', 'm'])
+
+
+
+use multiset.py here
+
+>>> from multiset import *
+>>> x = MultiSet([1,2,3,4])
+>>> y = MultiSet([3,4,5])
+>>> z = MultiSet([0,1,2])
+>>> x & y, x | y
+(Set:[3, 4], Set:[1, 2, 3, 4, 5])
+>>> x.intersect(y, z) 
+Set:[]
+>>> x.union(y, z)
+Set:[1, 2, 3, 4, 5, 0]
+>>> x.intersect([1,2,3], [2,3,4], [1,2,3])
+Set:[2, 3]
+>>> x.union(range(10))
+Set:[1, 2, 3, 4, 0, 5, 6, 7, 8, 9]

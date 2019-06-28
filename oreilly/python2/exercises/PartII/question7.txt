@@ -1,0 +1,27 @@
+>>> "x" + 1
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+TypeError: illegal argument type for built-in operation
+>>>
+>>> {} + {}
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+TypeError: bad operand type(s) for +
+>>>
+>>> [].append(9)
+>>> "".append('s')
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+AttributeError: attribute-less object
+>>>
+>>> {}.keys()
+[]
+>>> [].keys()
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+AttributeError: keys
+>>>
+>>> [][:]
+[]
+>>> ""[:]
+''

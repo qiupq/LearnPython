@@ -1,0 +1,4 @@
+import fileinput, sys                   # No change here
+sys.stdout = open(sys.argv[-1], 'w')    # Open the output file.
+del sys.argv[-1]                        # We've dealt with this argument.
+... # Continue as before.

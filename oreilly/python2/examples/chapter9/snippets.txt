@@ -1,0 +1,98 @@
+>>> if 1:
+...     print 'true'
+...
+true
+
+>>> if not 1:
+...     print 'true'
+... else:
+...     print 'false'
+...
+false
+
+>>> x = 'killer rabbit'
+>>> if x == 'roger':
+...     print "how's jessica?"
+... elif x == 'bugs':
+...     print "what's up doc?"
+... else:
+...     print 'Run away! Run away!'
+...
+Run away! Run away!
+
+>>> choice = 'ham'
+>>> print {'spam':  1.25,         # a dictionary-based 'switch'
+...        'ham':   1.99,         # use has_key() or get() for default
+...        'eggs':  0.99,
+...        'bacon': 1.10}[choice]
+1.99
+
+>>> if choice == 'spam':
+...     print 1.25
+... elif choice == 'ham':
+...     print 1.99
+... elif choice == 'eggs':
+...     print 0.99
+... elif choice == 'bacon':
+...     print 1.10
+... else:
+...     print 'Bad choice'
+...
+1.99
+
+>>> branch = {'spam': 1.25,
+...           'ham':  1.99,
+...           'eggs': 0.99}
+
+>>> print branch.get('spam', 'Bad choice')
+1.25
+>>> print branch.get('bacon', 'Bad choice')
+Bad choice
+
+
+
+
+x = 1
+if x:
+    y = 2
+    if y:
+        print 'block2'
+    print 'block1'
+print 'block0'
+
+L = ["Good", 
+     "Bad", 
+     "Ugly"]                    # open pairs may span lines
+
+if a == b and c == d and   \
+   d == e and f == g:
+   print 'olde'                  # backslashes allow continuations
+
+if (a == b and c == d and
+    d == e and e == f):
+    print 'new'                  # but parentheses usually do too
+
+x = 1; y = 2; print x            # more than 1 simple statement
+
+if 1: print 'hello'              # simple statement on header line
+
+
+
+
+>>> 2 < 3, 3 < 2        # less-than: return 1 or 0 
+(1, 0)
+
+>>> 2 or 3, 3 or 2      # return left operand if true
+(2, 3)                  # else return right operand (true or false)
+>>> [] or 3
+3
+>>> [] or {}
+{}
+
+>>> 2 and 3, 3 and 2    # return left operand if false
+(3, 2)                  # else return right operand (true or false)
+>>> [] and {}
+[]
+>>> 3 and []
+[]
+

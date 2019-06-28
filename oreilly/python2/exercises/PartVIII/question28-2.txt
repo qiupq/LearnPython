@@ -1,0 +1,19 @@
+if __name__ == '__main__':
+    import os, pickle
+    CACHEFILE = 'C:\cache.pik'
+    from feedback import DIRECTORY#, FormData, FeedbackData
+    if os.path.exists(CACHEFILE):
+        processed_files = pickle.load(open(CACHEFILE))
+    else:
+        processed_files = []
+    for filename in os.listdir(DIRECTORY):
+        if filename in processed_files: continue # Skip this filename.
+        processed_files.append(filename)
+        data = pickle.load(open(os.path.join(DIRECTORY, filename)))
+        if data.type == 'complaint':
+            print "Printing letter for %(name)s." % vars(data)
+            print_formletter(data)
+        else:
+            print "Got comment from %(name)s, skipping printing." % \
+                 vars(data)
+    pickle.dump(processed_file, open(CACHEFILE, 'w')

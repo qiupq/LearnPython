@@ -1,0 +1,15 @@
+>>> values = [2, 4, 9, 16, 25]
+>>> import math
+
+>>> res = []
+>>> for x in values: res.append(math.sqrt(x))
+...
+>>> res
+[1.4142135623730951, 2.0, 3.0, 4.0, 5.0]
+
+>>> map(math.sqrt, values)
+[1.4142135623730951, 2.0, 3.0, 4.0, 5.0]
+
+>>> [math.sqrt(x) for x in values]
+[1.4142135623730951, 2.0, 3.0, 4.0, 5.0]
+

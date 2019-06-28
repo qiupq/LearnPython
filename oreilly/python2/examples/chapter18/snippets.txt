@@ -1,0 +1,53 @@
+# see all the *.py module files here
+
+
+
+
+>>> import runme
+>>> runme.tester()
+It's Christmas in Heaven...
+
+% python runme.py
+It's Christmas in Heaven...
+
+
+
+
+>>> import sys
+>>> sys.path
+['', 'D:\\PP2ECD-Partial\\Examples', 'C:\\Python22', …more deleted…]
+
+>>> sys.path = [r'd:\temp']                  # change module search path
+>>> sys.path.append('c:\\lp2e\\examples')    # for this process only
+>>> sys.path
+['d:\\temp', 'c:\\lp2e\\examples']
+
+>>> import string
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+ImportError: No module named string
+
+
+
+
+M.name                          # qualify object
+M.__dict__['name']              # index namespace dictionary manually
+sys.modules['M'].name           # index loaded-modules table manually
+getattr(M, 'name')              # call built-in fetch function
+
+
+
+
+>>> modname = "string"
+>>> exec "import " + modname       # run a string of code
+>>> string                         # imported in this namespace
+<module 'string'>
+
+>>> modname = "string"
+>>> string = __import__(modname)
+>>> string
+<module 'string'> 
+
+
+
+

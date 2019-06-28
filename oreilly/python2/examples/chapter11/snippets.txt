@@ -1,0 +1,122 @@
+>>> import sys
+>>> dir(sys)
+
+>>> dir([])
+>>> dir('')
+
+>>> dir(str) == dir('')     # same result as prior example
+1
+>>> dir(list) == dir([])
+1
+
+
+
+
+>>> import docstrings
+16
+
+    function documentation
+    can we have your liver then?
+
+>>> print docstrings.__doc__
+
+Module documentation
+Words Go Here
+
+>>> print docstrings.square.__doc__
+
+    function documentation
+    can we have your liver then?
+    
+>>> print docstrings.employee.__doc__
+class documentation
+
+
+
+
+>>> import sys
+>>> print sys.__doc__
+
+>>> print sys.getrefcount.__doc__
+
+>>> print int.__doc__
+
+>>> print open.__doc__
+
+
+
+
+>>> import sys
+>>> help(sys.getrefcount)
+
+>>> help(sys)
+
+>>> help(dict)
+
+>>> help(str.replace)
+
+>>> help(ord)
+
+>>> help(docstrings.square)
+Help on function square in module docstrings:
+
+square(x)
+    function documentation
+    can we have your liver then?
+
+>>> help(docstrings.employee)
+…more ommitted…
+
+>>> help(docstrings)
+Help on module docstrings:
+
+NAME
+    docstrings
+
+FILE
+    c:\python22\docstrings.py
+
+DESCRIPTION
+    Module documentation
+    Words Go Here
+
+CLASSES
+    employee
+    …more ommitted…
+
+FUNCTIONS
+    square(x)
+        function documentation
+        can we have your liver then?
+
+DATA
+    __file__ = 'C:\\PYTHON22\\docstrings.pyc'
+    __name__ = 'docstrings'
+    spam = 40
+
+
+
+
+for i in range(50):
+    print 'hello %d\n\a' % i
+
+
+
+
+L = [1, 2, 4, 8, 16, 32, 64]
+X = 5
+
+found = i = 0
+while not found and i < len(L):
+    if 2 ** X == L[i]:
+        found = 1
+    else:
+        i = i+1
+
+if found:
+    print 'at index', i
+else:
+    print X, 'not found'
+
+C:\book\tests> python power.py
+at index 5

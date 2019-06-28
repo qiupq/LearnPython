@@ -1,0 +1,6 @@
+(change module1.py to this)
+
+#!/usr/local/bin/python
+print 'Hello module world!'
+
+

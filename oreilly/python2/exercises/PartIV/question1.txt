@@ -1,0 +1,10 @@
+>>> def func(x): print x
+...
+>>> func("spam")
+spam
+>>> func(42)
+42
+>>> func([1, 2, 3])
+[1, 2, 3]
+>>> func({'food': 'spam'})
+{'food': 'spam'}

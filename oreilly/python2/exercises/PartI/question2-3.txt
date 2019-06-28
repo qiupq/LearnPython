@@ -1,0 +1,8 @@
+use module1.py in this directory
+
+add a raw_input() call at the bottom of the file for Windows double-clicks,
+to keep the output window open
+
+
+
+

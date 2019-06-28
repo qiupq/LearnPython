@@ -1,0 +1,13 @@
+use files mymod.py and mymod2.py in this directory
+
+>>> import mymod
+>>> mymod.test('mymod.py')
+(10, 291)
+
+>>> import mymod2
+>>> mymod2.test("mymod2.py")
+(11, 392)
+
+>>> from mymod import *
+>>> countChars("mymod.py")
+291

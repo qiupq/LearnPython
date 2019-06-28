@@ -1,0 +1,571 @@
+>>> dir([])                             # what are the attributes of lists?
+
+
+>>> def mydir(obj):
+...     orig_dir = dir(obj)
+...     return [item for item in orig_dir if not item.startswith('_')]
+...     
+
+>>> mydir([])                             # what are the attributes of lists?
+
+
+>>> mydir(())                             # what are the attributes of tuples?
+[]                                        # note: no “normal” attributes
+>>> import sys                            # what are the attributes of files?
+>>> mydir(sys.stdin)                      # what are the attributes of files?
+
+>>> mydir(sys)                           # modules are objects too
+
+>>> type(sys.version)                    # what kind of thing is 'version'?
+
+>>> print repr(sys.version)              # what is the value of this string?
+
+>>> help(sys)
+
+>>> help()
+help> socket
+help> keywords
+help> topics
+help> TYPES
+help> quit
+>>> 
+
+
+>>> int(1.0), int(1.4), int(1.9), round(1.9), int(round(1.9))
+(1, 1, 1, 2.0, 2)
+>>> int("1")
+1
+>>> int("1.2")                             # this doesn't work
+Traceback (most recent call last):
+
+
+
+
+>>> def safeint(candidate):
+...   import math
+...   converted = float(candidate)
+...   rounded = round(converted)
+...   if converted == rounded:
+...         return int(converted)
+...   else: 
+...         raise ValueError, "%s would lose precision when cast"%candidate
+...
+>>> safeint(3.0)
+3
+>>> safeint("3.0")
+3
+>>> safeint(3.1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  File "<stdin>", line 8, in safeint
+ValueError: 3.1 would lose precision when cast
+
+
+
+
+>>> hex(1000), oct(1000)
+('0x3e8', '01750')
+
+>>> abs(-1), abs(-1.2), abs(-3+4j)
+(1, 1.2, 5.0)                               
+
+>>> map(ord, "test")    # remember that strings are sequences
+[116, 101, 115, 116]    # of characters, so map can be used
+>>> chr(64)
+'@'
+>>> ord('@')
+64
+# map returns a list of single characters, so it
+# needs to be 'join'ed into a str
+>>> map(chr, (83, 112, 97, 109, 33))
+['S', 'p', 'a', 'm', '! ']
+# can also be spelled using list comprehensions
+>>> [chr(x) for x in (83, 112, 97, 109, 33)]
+['S', 'p', 'a', 'm', '! ']
+>>> ''.join([chr(x) for x in (83, 112, 97, 109, 33)])
+'Spam!'
+
+
+>>> min("pif", "paf", "pof")        # when called with multiple arguments
+'paf'                               # return appropriate one
+>>> min("ZELDA!"), max("ZELDA!")    # when called with a sequence, 
+'!', 'Z'                            
+
+
+
+
+>>> import string
+>>> conversion = string.maketrans(" _-", "_-+")
+>>> input_string = "This is a two_part – one_part"
+>>> input_string.translate(conversion)
+'This_is_a_two-part_+_one-part'
+
+
+
+
+# see file pepper.txt
+
+file = open('pepper.txt')
+text = file.read()
+
+import string
+paragraphs = text.split('\n\n')
+
+import re
+matchstr = re.compile(
+    r"""\b(red|green)      # 'red' or 'green' starting new words
+        (\s+               # followed by whitespace
+         pepper            # the word 'pepper'
+         (?!corn)          # if not followed immediately by 'corn'
+         (?=.*salad))""",  # and if followed at some point by 'salad'',
+      re.IGNORECASE |      # allow pepper, Pepper, PEPPER, etc.
+      re.DOTALL |          # allow dots to match newlines as well
+      re.VERBOSE)          # this allows the comments and the newlines above	
+for paragraph in paragraphs:
+    fixed_paragraph = matchstr.sub(r'bell\2', paragraph)
+    print fixed_paragraph+'\n'
+
+matchstr = re.compile(r"\b(red|green)(\s+pepper(?!corn)(?=.*salad))", re.I | re.S)
+
+fixed_paragraph = matchstr.sub(r'bell\2', paragraph)
+
+
+
+
+x = 'tomato'
+y = x                   # y is now 'tomato'
+x = x + ' and cucumber' # x is now 'tomato and cucumber' but y is unchanged
+
+newList = list(myList)
+newTuple = tuple(myTuple)
+
+newList = myList[:]
+
+newDict = myDict.copy()
+
+newDict = dict(myDict)
+
+for key in otherDict.keys():
+    oneDict[key] = otherDict[key]
+
+
+
+
+def mergeWithoutOverlap(oneDict, otherDict):
+    newDict = oneDict.copy()
+    for key in otherDict:
+        if key in oneDict:
+            raise ValueError, "the two dictionaries share keys!"
+        newDict[key] = otherDict[key]
+    return newDict
+
+
+
+
+def mergeWithOverlap(oneDict, otherDict):
+    newDict = oneDict.copy()
+    for key in otherDict:
+        if key in oneDict:
+            newDict[key] = oneDict[key], otherDict[key]
+        else:
+            newDict[key] = otherDict[key]
+    return newDict
+
+
+
+
+phoneBook1 = {'michael': '555-1212', 'mark': '554-1121', 'emily': '556-0091'}
+phoneBook2 = {'latoya': '555-1255', 'emily': '667-1234'}
+
+
+
+
+>>> import copy
+>>> listOne = [{"name": "Willie", "city": "Providence, RI"}, 1, "tomato", 3.0]
+>>> listTwo = listOne[:]                   # or listTwo=copy.copy(listOne)
+>>> listThree = copy.deepcopy(listOne)
+>>> listOne.append("kid")
+>>> listOne[0]["city"] = "San Francisco, CA"
+>>> print listOne, listTwo, listThree
+[{'name': 'Willie', 'city': 'San Francisco, CA'}, 1, 'tomato', 3.0, 'kid']
+[{'name': 'Willie', 'city': 'San Francisco, CA'}, 1, 'tomato', 3.0]
+[{'name': 'Willie', 'city': 'Providence, RI'}, 1, 'tomato', 3.0]
+
+
+
+
+listCopy = list(myTuple)
+listCopy.sort()
+for item in listCopy:
+    print item                             # or whatever needs doing
+
+
+keys = myDict.keys()                       # returns an unsorted list of
+                                           # the keys in the dict
+keys.sort()
+for key in keys:                           # print key, value pairs 
+    print key, myDict[key]                 # sorted by key
+
+
+>>> def caseIndependentSort(something, other):
+...    something, other  = something.lower(), other.lower()
+...    return cmp(something, other)
+... 
+>>> testList = ['this', 'is', 'A', 'sorted', 'List']
+>>> testList.sort()
+>>> print testList
+['A', 'List', 'is', 'sorted', 'this']
+>>> testList.sort(caseIndependentSort)
+>>> print testList
+['A', 'is', 'List', 'sorted', 'this']
+
+
+
+
+class Stack:
+    def __init__(self, data):
+        self._data = list(data)
+        self.push = data.append
+        self.pop = data.pop
+
+>>> thingsToDo = Stack(['write to mom', 'invite friend over', 'wash the kid'])
+>>> thingsToDo.push('do the dishes')
+>>> print thingsToDo.pop()
+do the dishes
+>>> print thingsToDo.pop()
+wash the kid
+
+
+
+
+# subclass the list class
+class Stack(list):
+    push = list.append
+
+>>> thingsToDo = Stack(['write to mom', 'invite friend over', 'wash the kid'])
+>>> print thingsToDo                  # inherited from list base class
+['write to mom', 'invite friend over', 'wash the kid']
+>>> thingsToDo.pop()        
+'wash the kid'
+>>> thingsToDo.push('change the oil')
+>>> for chore in thingsToDo:          # we can also iterate over the contents
+...    print chore 
+...
+write to mom
+invite friend over
+change the oil
+
+
+
+
+>>> print os.getcwd()        # where am I?
+C:\Python22
+>>> print os.listdir('.')    # what’s here?
+['DLLs', 'Doc', 'include', 'Lib', 'libs', 'License.txt', …]
+>>> os.chdir('Lib')          # let’s go explore the library
+>>> print os.listdir('.')    # what’s here?
+['aifc.py', 'anydbm.py', 'anydbm.pyc', 'asynchat.py',
+'asyncore.py', 'atexit.py', 'atexit.pyc', 'atexit.pyo',
+'audiodev.py', 'base64.py', …]
+>>> os.remove('atexit.pyc')  # we can remove .pyc files safely
+>>> 
+
+
+>>> os.rmdir('nonexistent_directory')      # how it usually shows up
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+os.error: (2, 'No such file or directory')
+>>> try:                                   # we can catch the error and take
+...    os.rmdir('nonexistent directory')   # it apart
+... except os.error, value:
+...     print value[0], value[1]
+...
+2 No such file or directory
+
+
+>>> print os.environ['SHELL']
+/bin/sh
+>>> os.environ['STARTDIR'] = 'MyStartDir'
+>>> os.system('echo $STARTDIR')           # 'echo %STARTDIR%' on DOS/Win
+MyStartDir                                # printed by the shell
+0                                         # return code from echo
+
+
+>>> def test_walk(arg, dirname, names):
+...     print arg, dirname, names
+...
+>>> os.path.walk('..', test_walk, 'show')
+show ..\logs ['errors.log', 'access.log']
+show ..\cgi-bin ['test.cgi']
+...
+
+
+
+# see file despacify.txt here
+
+# see file showglob.py here
+
+
+
+
+# read input file
+inputFile = open('input.txt', 'r')
+
+import tempfile
+# create temporary file
+tempFile = tempfile.TemporaryFile()                   # we don't even need to 
+first_process(input = inputFile, output = tempFile)   # know the filename...
+
+# create final output file
+outputFile = open('output.txt', 'w')
+second_process(input = tempFile, output = outputFile)
+
+
+
+
+formletter = """Dear %s,\nI'm writing to you to suggest that ..."""    # etc. 
+myDatabase = [('Bill Clinton', 'bill@whitehouse.gov.us'),
+              ('Bill Gates', 'bill@microsoft.com'),
+              ('Bob', 'bob@subgenius.org')]
+for name, email in myDatabase:
+    specificLetter = formletter % name
+    tempfilename = tempfile.mktemp()
+    tempfile = open(tempfilename, 'w')
+    tempfile.write(specificLetter)
+    tempfile.close()
+    os.system('/usr/bin/mail %(email)s –s "Urgent!" < %(tempfilename)s' % vars()) 
+    os.remove(tempfilename)
+
+
+
+
+# see countlines.py here
+
+# see commentfinder.py here
+
+
+
+
+
+import sys, string
+for line in sys.stdin:
+    words = line.split() 
+    if len(words) >= 4:
+        print words[3]
+
+
+
+
+    try:
+        print words[3]
+    except IndexError:                     # there aren't enough words
+        pass
+
+
+
+
+import sys, string
+for line in sys.stdin:
+    words = line.split(':') 
+    if len(words) >= 4:
+        print words[3].lower()
+
+
+
+
+lines = sys.stdin.readlines()
+sys.stdout.writelines(lines[:10])          # first ten lines
+sys.stdout.writelines(lines[-10:])         # last ten lines
+for lineIndex in range(0, len(lines), 2):  # get 0, 2, 4, ...
+    sys.stdout.write(lines[lineIndex])     # get the indexed line
+
+
+
+
+text = open(fname).read()
+print text.count('Python')
+
+
+
+
+import sys
+lines = sys.stdin.readlines()
+wordlists = [line.split() for line in lines]
+for row in zip(*wordlists):
+    print '\t'.join(row)
+
+
+
+
+# read character by character
+while 1:
+    next = sys.stdin.read(1)            # read a one-character string
+    if not next:                        # or an empty string at EOF
+        break
+        # Process character 'next'
+
+
+
+
+# read line by line
+while 1:
+    next = sys.stdin.readline()         # read a one-line string
+    if not next:                        # or an empty string at EOF
+        break
+        # Process line 'next'
+
+
+
+
+import sys
+inputfilenames, outputfilename = sys.argv[1:-1], sys.argv[-1]
+for inputfilename in inputfilenames:
+    inputfile = open(inputfilename, "r")
+    do_something_with_input(inputfile)
+inputfile.close()
+outputfile = open(outputfilename, "w")
+write_results(outputfile)
+outputfile.close()
+
+
+
+
+def do_something_with_input(inputfile):
+    for line in inputfile:
+        process(line)
+
+
+
+
+import fileinput
+for line in fileinput.input():
+    process(line)
+
+
+# see file mygrep.py here
+
+
+
+
+import struct
+data = open('bindat.dat').read()
+start, stop = 0, struct.calcsize('fl')
+version_number, num_bytes = struct.unpack('fl', data[start:stop])
+start, stop = stop, start + struct.calcsize('B'*num_bytes)
+bytes = struct.unpack('B'*num_bytes, data[start:stop])
+
+
+
+
+>>> code = "x = 'Something'"
+>>> x = "Nothing"                            # sets the value of x
+>>> exec code                                # modifies the value of x!
+>>> print x
+'Something'
+
+
+import sys
+for argument in sys.argv[1:]:          # we'll skip ourselves, or it'll go forever!
+    execfile(argument)                 # do whatever
+
+
+>>> z = eval("word*10")
+>>> print z
+'xoxoxoxoxoxoxoxoxoxo'
+
+
+>>> z = eval("x = 3")
+Traceback (innermost last):
+File "<stdin>", line 1, in ?
+File "<string>", line 1
+x = 3
+      ^
+SyntaxError: invalid syntax
+
+
+class Derived(Base):
+	def __init__(self, arg, *args, **kw):
+		self.__init__(self, *args, **kw)
+
+
+class Derived(Base):
+	def __init__(self, arg, *args, **kw):
+		apply(self.__init__, (self,) + args), kw)
+
+
+>>> callable(sys.exit), type(sys.exit)
+(1, <type 'builtin_function_or_method'>)
+>>> callable(sys.version), type(sys.version)
+(0, <type 'string'>)
+
+
+
+
+>>> import spam                       # import the module we wish to debug
+>>> import pdb                        # import pdb
+>>> pdb.run('instance = spam.Spam()') # start pdb with a statement to run
+> <string>(0)?()
+(Pdb) break spam.Spam.__init__                 # we can set break points
+(Pdb) next
+
+
+
+
+
+def lots_of_appends():
+    zeros = []
+    for i in range(10000):
+        zeros.append(0)
+
+def one_multiply():
+    zeros = [0] * 10000
+
+
+import time, makezeros
+def do_timing(num_times, *funcs):
+    totals = {}
+    for func in funcs:
+        totals[func] = 0.0
+        starttime = time.clock()        # record starting time
+        for x in range(num_times):
+            for func in funcs:
+                apply(func)
+        stoptime = time.clock ()         # record ending time
+        elapsed = stoptime—starttime   # difference yields time elapsed
+        totals[func] = totals[func] + elapsed
+    for func in funcs:
+        print "Running %s %d times took %.3f seconds" % (func.__name__, num_times totals[func])
+
+do_timing(100, (makezeros.lots_of_appends, makezeros.one_multiply))
+
+
+
+
+>>> from timings import *
+>>> from makezeros import *
+>>> profile.run('do_timing(100, (lots_of_appends, one_multiply))')
+Running lots_of_appends 100 times took 8.773 seconds
+Running one_multiply 100 times took 0.090 seconds
+203 function calls in 8.823 CPU seconds
+Ordered by: standard name
+ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      100   8.574   0.086   8.574  0.086 makezeros.py:1(lots_of_appends)
+      100   0.101   0.001   0.101  0.001 makezeros.py:6(one_multiply)
+        1   0.001   0.001   8.823  8.823 profile:0(do_timing(100, 
+(lots_of_appends, one_multiply)))
+        0   0.000           0.000        profile:0(profiler)
+        1   0.000   0.000   8.821  8.821 python:0(194.C.2)
+        1   0.147   0.147   8.821  8.821 timings.py:2(do_timing)
+
+
+
+
+
+
+
+
+
+
+
+
+

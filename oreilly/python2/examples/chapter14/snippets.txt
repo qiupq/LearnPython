@@ -1,0 +1,556 @@
+>>> def func(x, y, z): return x + y + z
+...
+>>> func(2, 3, 4)
+9
+
+>>> f = lambda x, y, z: x + y + z
+>>> f(2, 3, 4)
+9
+
+>>> x = (lambda a="fee", b="fie", c="foe": a + b + c)
+>>> x("wee")
+'weefiefoe'
+
+>>> def knights():
+...     title = 'Sir'
+...     action = (lambda x: title + ' ' + x)   # title in enclosing def
+...     return action                          # return a function
+...
+>>> act = knights()
+>>> act('robin')
+'Sir robin'
+
+
+
+
+L = [(lambda x: x**2), (lambda x: x**3), (lambda x: x**4)]
+
+for f in L:
+    print f(2)     # prints 4, 8, 16
+
+print L[0](3)      # prints 9
+
+
+
+
+>>> key = 'got'
+>>> {'already': (lambda: 2 + 2),
+...  'got':     (lambda: 2 * 4),
+...  'one':     (lambda: 2 ** 6)
+... }[key]()
+8
+
+
+
+
+>>> t, f = 1, 0
+>>> x, y = 88, 99
+
+>>> a = (t and x) or y           # if true, x
+>>> a
+88
+>>> a = (f and x) or y           # if false, y
+>>> a
+99
+
+>>> ((t and [x]) or [y])[0]     # if true, x
+88
+>>> ((f and [x]) or [y])[0]     # if false, y
+99
+>>> (t and f) or y              # fails: f is false, skipped
+99
+>>> ((t and [f]) or [y])[0]     # works: f returned anyhow
+0
+
+>>> def ifelse(a, b, c): return ((a and [b]) or [c])[0]
+...
+>>> ifelse(1, 'spam', 'ni')
+'spam'
+>>> ifelse(0, 'spam', 'ni')
+'ni'
+
+def ifelse(a, b, c):
+   if a: return b
+   else: return c
+
+>>> lower = (lambda x, y: (((x < y) and [x]) or [y])[0])
+>>> lower('bb', 'aa')
+'aa'
+>>> lower('aa', 'bb')
+'aa'
+
+>>> import sys
+>>> showall = (lambda x: map(sys.stdout.write, x))
+>>> t = showall(['spam\n', 'toast\n', 'eggs\n'])
+spam
+toast
+eggs
+
+
+
+
+>>> def action(x):
+...     return (lambda y: x + y)        # make, return function
+
+>>> act = action(99)
+>>> act
+<function <lambda> at 0x00A16A88>
+>>> act(2)
+101
+
+
+>>> action = (lambda x: (lambda y: x + y))
+>>> act = action(99)
+>>> act(3)
+102
+>>> ((lambda x: (lambda y: x + y))(99))(4)
+103 
+
+
+
+
+>>> def func(x, y, z): return x + y + z
+...
+>>> apply(func, (2, 3, 4))
+9
+>>> f = lambda x, y, z: x + y + z
+>>> apply(f, (2, 3, 4))
+9
+
+
+>>> args = (2,3) + (4,)
+>>> args
+(2, 3, 4)
+>>> apply(func, args)
+9
+
+
+>>> def echo(*args, **kwargs): print args, kwargs
+
+>>> echo(1, 2, a=3, b=4)
+(1, 2) {'a': 3, 'b': 4}
+
+
+>>> pargs = (1, 2)
+>>> kargs = {'a':3, 'b':4}
+>>> apply(echo, pargs, kargs)
+(1, 2) {'a': 3, 'b': 4}
+
+
+>>> apply(func, args)              # traditional: tuple
+9
+>>> func(*args)                    # new apply-like syntax
+9
+>>> echo(*pargs, **kargs)          # keyword dictionaries too
+(1, 2) {'a': 3, 'b': 4}
+
+>>> echo(0, *pargs, **kargs)       # normal, *tuple, **dictionary
+(0, 1, 2) {'a': 3, 'b': 4}
+
+
+
+
+>>> counters = [1, 2, 3, 4]
+>>>
+>>> updated = []
+>>> for x in counters:
+...     updated.append(x + 10)              # add 10 to each item
+...
+>>> updated
+[11, 12, 13, 14]
+
+
+>>> def inc(x): return x + 10               # function to be run
+...
+>>> map(inc, counters)                      # collect results
+[11, 12, 13, 14]
+
+
+>>> map((lambda x: x + 3), counters)        # function expression
+[4, 5, 6, 7]
+
+
+>>> def mymap(func, seq):
+...     res = []
+...     for x in seq: res.append(func(x))
+...     return res
+...
+>>> map(inc, [1, 2, 3])
+[11, 12, 13]
+>>> mymap(inc, [1, 2, 3])
+[11, 12, 13]
+
+
+>>> pow(3, 4)
+81
+>>> map(pow, [1, 2, 3], [2, 3, 4])       # 1**2, 2**3, 3**4
+[1, 8, 81]
+
+
+
+
+
+>>> range(-5, 5)
+[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4]
+
+>>> filter((lambda x: x > 0), range(-5, 5))
+[1, 2, 3, 4]
+
+
+>>> res = []
+>>> for x in range(-5, 5):
+...     if x > 0:
+...         res.append(x)
+...
+>>> res
+[1, 2, 3, 4]
+
+
+>>> reduce((lambda x, y: x + y), [1, 2, 3, 4])
+10
+>>> reduce((lambda x, y: x * y), [1, 2, 3, 4])
+24
+
+
+>>> L = [1,2,3,4]
+>>> res = L[0]
+>>> for x in L[1:]:
+...     res = res + x
+...
+>>> res
+10
+
+
+>>> import operator
+>>> reduce(operator.add, [2, 4, 6])      # function-based +
+12
+>>> reduce((lambda x, y: x + y), [2, 4, 6])
+12
+
+
+
+
+>>> ord('s')
+115
+
+>>> res = []
+>>> for x in 'spam': 
+...     res.append(ord(x))
+...
+>>> res
+[115, 112, 97, 109]
+
+
+>>> res = map(ord, 'spam')            # apply func to seq
+>>> res
+[115, 112, 97, 109]
+
+
+>>> res = [ord(x) for x in 'spam']    # apply expr to seq
+>>> res
+[115, 112, 97, 109]
+
+
+>>> [x ** 2 for x in range(10)]
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+
+>>> map((lambda x: x**2), range(10))
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+
+
+
+>>> [x for x in range(5) if x % 2 == 0]
+[0, 2, 4]
+
+>>> filter((lambda x: x % 2 == 0), range(5))
+[0, 2, 4]
+
+>>> res = []
+>>> for x in range(5):
+...     if x % 2 == 0: res.append(x)
+...	
+>>> res
+[0, 2, 4]
+
+
+>>> [x**2 for x in range(10) if x % 2 == 0]
+[0, 4, 16, 36, 64]
+
+
+>>> map((lambda x: x**2), filter((lambda x: x % 2 == 0), range(10)))
+[0, 4, 16, 36, 64]
+
+
+>>> res = [x+y for x in [0,1,2] for y in [100,200,300]]
+>>> res
+[100, 200, 300, 101, 201, 301, 102, 202, 302]
+
+
+>>> res = []
+>>> for x in [0,1,2]:
+...     for y in [100,200,300]:
+...         res.append(x+y)
+...
+>>> res
+[100, 200, 300, 101, 201, 301, 102, 202, 302]
+
+
+>>> [x+y for x in 'spam' for y in 'SPAM']
+['sS', 'sP', 'sA', 'sM', 'pS', 'pP', 'pA', 'pM', 
+'aS', 'aP', 'aA', 'aM', 'mS', 'mP', 'mA', 'mM']
+
+
+>>> [(x,y) for x in range(5) if x%2 == 0 for y in range(5) if y%2 == 1]
+[(0, 1), (0, 3), (2, 1), (2, 3), (4, 1), (4, 3)]
+
+
+>>> res = []
+>>> for x in range(5):
+...     if x % 2 == 0:
+...         for y in range(5):
+...             if y % 2 == 1:
+...                 res.append((x, y))
+...
+>>> res
+[(0, 1), (0, 3), (2, 1), (2, 3), (4, 1), (4, 3)]
+
+
+
+
+>>> open('myfile').readlines()
+['aaa\n', 'bbb\n', 'ccc\n']
+
+>>> [line[:-1] for line in open('myfile').readlines()]
+['aaa', 'bbb', 'ccc']
+
+>>> [line[:-1] for line in open('myfile')]
+['aaa', 'bbb', 'ccc']
+
+>>> map((lambda line: line[:-1]), open('myfile'))
+['aaa', 'bbb', 'ccc']
+
+
+listoftuple = [('bob', 35, 'mgr'), ('mel', 40, 'dev')]
+
+>>> [age for (name, age, job) in listoftuple]
+[35, 40]
+>>> map((lambda (name, age, job): age), listoftuple)
+[35, 40]
+
+
+
+
+>>> def gensquares(N):
+...     for i in range(N):
+...         yield i ** 2               # resume here later
+
+>>> for i in gensquares(5):        # resume the function 
+...     print i, ':',              # print last yielded value
+...
+0 : 1 : 4 : 9 : 16 :
+>>>
+
+>>> x = gensquares(10)
+>>> x
+<generator object at 0x0086C378>
+
+>>> x.next()
+0
+>>> x.next()
+1
+>>> x.next()
+4
+
+>>> def buildsquares(n):
+...     res = []
+...     for i in range(n): res.append(i**2)
+...     return res
+...
+>>> for x in buildsquares(5): print x, ':',
+...
+0 : 1 : 4 : 9 : 16 :
+
+>>> for x in [n**2 for n in range(5)]:
+...     print x, ':',
+...
+0 : 1 : 4 : 9 : 16 :
+
+>>> for x in map((lambda x:x**2), range(5)):
+...     print x, ':',
+...
+0 : 1 : 4 : 9 : 16 :
+
+
+
+
+>>> D = {'a':1, 'b':2, 'c':3}
+>>> x = iter(D)
+>>> x.next()
+'a'
+>>> x.next()
+'c'
+
+>>> for key in D: 
+...     print key, D[key]
+...
+a 1
+c 3
+b 2
+
+>>> for line in open('temp.txt'):
+...     print line,
+...
+Tis but
+a flesh wound.
+
+
+
+
+>>> def echo(message):           # echo assigned to a function object
+...     print message
+...
+>>> x = echo                     # now x references it too
+>>> x('Hello world!')            # call the object by adding ()
+Hello world!
+
+>>> def indirect(func, arg):
+...     func(arg)                         # call object by adding ()
+...
+>>> indirect(echo, 'Hello jello!')        # pass function to a function
+Hello jello!
+
+>>> schedule = [ (echo, 'Spam!'), (echo, 'Ham!') ]
+>>> for (func, arg) in schedule:
+...     func(arg)
+...
+Spam!
+Ham!
+
+
+
+
+>>> X = 99
+>>> def selector():        # X used but not assigned
+...     print X            # X found in global scope
+...
+>>> selector()
+99
+
+>>> def selector():
+...     print X              # does not yet exist!
+...     X = 88               # X classified as a local name (everywhere)
+...                          # can also happen if "import X", "def X",...
+>>> selector()
+Traceback (most recent call last):
+
+>>> def selector():
+...     global X           # force X to be global (everywhere)
+...     print X
+...     X = 88
+...
+>>> selector()
+99
+
+>>> X = 99
+>>> def selector():
+...     import __main__     # import enclosing module
+...     print __main__.X    # qualify to get to global version of name
+...     X = 88              # unqualified X classified as local
+...     print X             # prints local version of name
+...
+>>> selector()
+99
+88
+
+
+
+
+>>> def saver(x=[]):          # saves away a list object
+...     x.append(1)           # changes same object each time!
+...     print x
+...
+>>> saver([2])                # default not used
+[2, 1]
+>>> saver()                   # default used
+[1]
+>>> saver()                   # grows on each call!
+[1, 1]
+>>> saver()
+[1, 1, 1]
+
+>>> def saver(x=None):
+...     if x is None:         # no argument passed?
+...         x = []            # run code to make a new list
+...     x.append(1)           # changes new list object
+...     print x
+...
+>>> saver([2])
+[2, 1]
+>>> saver()                   # doesn't grow here
+[1]
+>>> saver()
+[1]
+
+
+
+
+>>> def proc(x):
+...     print x        # no return is a None return
+...
+>>> x = proc('testing 123...')
+testing 123...
+>>> print x
+None
+
+>>> list = [1, 2, 3]
+>>> list = list.append(4)      # append is a 'procedure'
+>>> print list                 # append changes list in-place 
+None
+
+
+
+
+
+def f1(a, b): print a, b             # normal args
+
+def f2(a, *b): print a, b            # positional varargs
+
+def f3(a, **b): print a, b           # keyword varargs
+
+def f4(a, *b, **c): print a, b, c    # mixed modes
+
+def f5(a, b=2, c=3): print a, b, c   # defaults
+
+def f6(a, b=2, *c): print a, b, c    # defaults + positional varargs
+
+>>> f1(1, 2)                  
+>>> f1(b=2, a=1)              
+
+>>> f2(1, 2, 3)               
+>>> f3(1, x=2, y=3)           
+>>> f4(1, 2, 3, x=2, y=3)     
+
+>>> f5(1)                    
+>>> f5(1, 4)                 
+
+>>> f6(1)                    
+>>> f6(1, 3, 4)        
+
+
+
+
+x = y / 2                          # for some y > 1
+while x > 1:
+    if y % x == 0:                 # remainder
+        print y, 'has factor', x
+        break                      # skip else
+    x = x-1
+else:                              # normal exit
+    print y, 'is prime'
+
+
+
+
+

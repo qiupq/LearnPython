@@ -1,0 +1,34 @@
+
+# see file html-excerpt.txt
+
+# see file feedback.py
+
+
+
+
+form = cgi.FieldStorage()
+form_ok = 1
+if 'name' not in form or form["name"].value == "":
+    form_ok = 0
+else:
+    data_name = form["name"].value
+if 'email' not in form or form["email"].value == "":
+    form_ok = 0
+else:
+    data_email = form["email"].value
+...
+
+
+
+
+# see file formletter.py
+
+# see file feedbackeditor.py
+
+# see file FormEditor.py
+
+# see file Jythondemo.py
+
+# see file grapher.py
+
+

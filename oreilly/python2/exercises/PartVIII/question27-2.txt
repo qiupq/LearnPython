@@ -1,0 +1,42 @@
+# place this code in FileStrings.py
+
+class FileStrings:
+    def __init__(self, filename=None, data=None):
+        if data == None:
+            self.data = open(filename).read()
+        else:
+            self.data = data
+        self.paragraphs = self.data.split('\n\n')
+        self.lines = self.data.split('\n')
+        self.words = self.data.split()
+    def __repr__(self):
+        return self.data
+    def paragraph(self, index):
+        return FileStrings(data=self.paragraphs[index])
+    def line(self, index):
+        return FileStrings(data=self.lines[index])
+    def word(self, index):
+        return self.words[index]
+
+
+# see file pepper.txt in the examples directory for this chapter
+
+
+>>> from FileStrings import FileStrings
+>>> bigtext = FileStrings('pepper.txt')
+>>> print bigtext.paragraph(0)
+This is a paragraph that mentions bell peppers multiple times. For
+one, here is a red Pepper and dried tomato salad recipe. I don't like
+to use green peppers in my salads as much because they have a harsher
+flavor.
+>>> print bigtext.line(0)
+This is a paragraph that mentions bell peppers multiple times. For
+>>> print bigtext.line(-4)
+aren't peppers, they're chilies, but would you rather have a good cook
+>>> print bigtext.word(-4)
+botanist
+
+
+
+>>> print bigtext.paragraph(2).line(2).word(-1)
+'cook'
