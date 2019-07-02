@@ -541,7 +541,37 @@ def test_dict_search():
     
     print ("data = {}".format(mynames))
     print ("search result = {}".format(result))
-
+def trace_exception():
+    print ("trace exception function")
+    muffled = False
+    try:
+        print("try get error in x / y")
+        x = int(input("enter x:"))
+        y = int(input("enter y:"))
+        print(x/y)
+    except ZeroDivisionError:
+        if muffled:
+            print(" y can't be zero")
+        else:
+            raise ValueError
+#raise ... from ... exception context ???:
+# except statement will only exec one of them
+    except ValueError as e:
+        print ("it is not number")
+        print (e)
+        pass
+    except (ZeroDivisionError, TypeError, NameError):
+        print ("enter many except error")
+    except Exception as e:
+# catch all except
+        print ("some except error happend:{}".format(e))
+    else:
+# not except happened
+        print ("not except happened")
+# always run finally        
+    finally:
+        print ("Enter finally progress")
+    
 #search number in a sequence : half of separate  way
 def search_num(seq, want):
     lower=0
@@ -586,7 +616,7 @@ def calc_heat_index(T, RH):
             HI += ADJUSTMENT
     return round((HI - 32) / 1.8, 2)
 
-__name__ = "class"
+__name__ = "traceException"
 #function skills:
 # specify name args: 
 #       store(patient='Mr. Brainsample', hour=10, minute=20, day=13, month=5) 
@@ -628,6 +658,8 @@ elif __name__ == "class":
     class_test()
 elif __name__ == "dict_search":
     test_dict_search()
+elif __name__ == "traceException":
+    trace_exception()
 elif __name__ == "search_n":
     a = [n for n in range(1,20) ]
     print ("a={}".format(a))
