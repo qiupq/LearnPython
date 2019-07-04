@@ -541,12 +541,48 @@ def test_dict_search():
     
     print ("data = {}".format(mynames))
     print ("search result = {}".format(result))
+def drawastar():
+    #do not have module turtle
+    import turtle
+    color('red','red')
+    begin_fill()
+    for i in range(5):
+        fd(200)
+        rt(144)
+    end_fill()
+    done()
+    
+    colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+    for i in range(7):
+        c = colors[i]
+        turtle.color(c, c)
+        turtle.begin_fill()
+        turtle.rt(360/7)
+        turtle.circle(50)
+        turtle.end_fill()
+    turtle.done()
+    
+def callruntime():
+    import time
+    limit = 10*1000*1000
+    start = time.perf_counter()
+    while True:
+        limit -=1
+        if limit == 0:
+            break
+    
+    delta = time.perf_counter() - start
+    print("function run time is {} Sec".format(delta))
+    
 def trace_exception():
     print ("trace exception function")
-    muffled = False
+    from random import randint
+    target=randint(1,1000)
+    print ("now you get add random num :{}".format(target))
+    muffled = True
     try:
         print("try get error in x / y")
-        x = int(input("enter x:"))
+        x = eval(input("enter x:"))
         y = int(input("enter y:"))
         print(x/y)
     except ZeroDivisionError:
@@ -560,8 +596,8 @@ def trace_exception():
         print ("it is not number")
         print (e)
         pass
-    except (ZeroDivisionError, TypeError, NameError):
-        print ("enter many except error")
+    except (TypeError, NameError) as e:
+        print ("enter many except error:{}".format(e))
     except Exception as e:
 # catch all except
         print ("some except error happend:{}".format(e))
@@ -571,7 +607,56 @@ def trace_exception():
 # always run finally        
     finally:
         print ("Enter finally progress")
-    
+# make line center start
+txt = '''
+人生得意须尽欢,莫使金樽空对月.
+天生我材必有用,千金散尽还复来.
+可以使用一条命令实现保存用户名和密码不用再输入
+'''
+linewidth = 15
+
+def lineSplit(line):
+    plist = [',' , '!' , '?' , ',' , '.' , '!' , '?']
+    for p in plist:
+        line = line.replace(p, '\n')
+    return line.split('\n')
+
+def linePrint(line):
+    global linewidth
+    if len(line) > linewidth:
+        print(line[:linewidth])
+        print(line[linewidth:].center(linewidth))
+        return
+    print(line.center(linewidth))
+
+def makecenter():
+    print("make lines center")
+    newlines = lineSplit(txt)
+    for newline in newlines:
+        linePrint(newline)
+
+        
+# make line center end
+#filewordcount start
+def getText():
+    txt = open("count.txt","r").read()
+    txt = txt.lower()
+    for ch in '\'!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~':
+        txt = txt.replace(ch," ")
+    return txt
+def filewordcount():
+    files = getText()
+    words = files.split()
+    counts = {}
+    for word in words:
+        counts[word] = counts.get(word,0) + 1
+    items = list(counts.items())
+    items.sort(key=lambda x:x[1], reverse=True)
+    for i in range(10):
+        word, count = items[i]
+        print("{0:<10}{1:>5}".format(word, count))
+    print("filewordcount function end")
+#filewordcount end
 #search number in a sequence : half of separate  way
 def search_num(seq, want):
     lower=0
@@ -616,7 +701,7 @@ def calc_heat_index(T, RH):
             HI += ADJUSTMENT
     return round((HI - 32) / 1.8, 2)
 
-__name__ = "traceException"
+__name__ = "wordcount"
 #function skills:
 # specify name args: 
 #       store(patient='Mr. Brainsample', hour=10, minute=20, day=13, month=5) 
@@ -660,6 +745,14 @@ elif __name__ == "dict_search":
     test_dict_search()
 elif __name__ == "traceException":
     trace_exception()
+elif __name__ == "drawstar":
+    drawastar()
+elif __name__ == "callrtime":
+    callruntime()
+elif __name__ == "linecenter":
+    makecenter()
+elif __name__ == "wordcount":
+    filewordcount()
 elif __name__ == "search_n":
     a = [n for n in range(1,20) ]
     print ("a={}".format(a))
