@@ -634,7 +634,77 @@ def makecenter():
     newlines = lineSplit(txt)
     for newline in newlines:
         linePrint(newline)
+#FileOPS() start
+def FileOPS():
+    # open(<file>,<mode>)
+    #     mode:
+    #          'r'  read only,or return "FileNotFoundError"
+    #          'w'  overWrite mode, with file create or re create
+    #          'x'  creat with Write ,file Exist return FileExistsError
+    #          'a'  append write mode, with file create or append write file
+    #          'b'  binary file OPS mode
+    #          't'  txt file OPS mode
+    #          '+'  behind r/w/x/a ,add function read/write
+    FPATH = "/mnt/aaa/git/learnpython/LearnPython/python/"
+    f = open(FPATH + "FileOPS.txt","at+")
+    #write
+    f.write("start:\n")
+    l1 = ['good','day','bad']
+    f.write("1.notice write operate;"+",".join(l1)+"\n")
+    w1= ['2.Roman is a type of ORACLE username in which OPS.\n',"3.We moved out from there that afternoon;\n"]
+    f.writelines(w1)   # wite list to file
+    
+    #read
+    f.seek(0)
+    print("now it is first read way")
+    for line in f:
+        print(line)
+        
+    print("second way")
+    f.seek(0)
+    r1 = f.read()
+    print(r1)
 
+    f.seek(0)
+    print("third read way")
+    r2 = f.readlines() # result is list ,each line is a element of list
+    print(r2)
+
+    f.seek(0)
+    print("fourth read way")
+    print(f.readline()) # read a line of file
+
+    # one dimensional progress
+    print("one dimensional number")
+    f.seek(0,2)
+    l1=f.tell()
+    w1 = ['xiamen','longyan','hunan','beijing']
+    f.write(",".join(w1)+"\n")
+
+    f.seek(l1,0)
+    ls = f.readline().strip('\n').split(",")
+    print(ls)
+
+    # two dimensional progress
+    print("two dimensional")
+    w2 = [['NO','2011','2012','2013'],['101','10.1','22.3','24.0'],['102','12.3','24.4','11.2']]
+   
+    f.seek(0,2)
+    l1=f.tell()
+    for line in w2:
+        f.write(",".join(line)+"\n")
+
+    f.seek(l1,0)
+    ls=[]
+    for line in f:
+        ls.append(line.strip('\n').split(","))
+    print(ls)
+    
+    
+    
+    #close
+    f.close()
+#FileOPS() end
         
 # make line center end
 #filewordcount start
@@ -701,7 +771,7 @@ def calc_heat_index(T, RH):
             HI += ADJUSTMENT
     return round((HI - 32) / 1.8, 2)
 
-__name__ = "wordcount"
+__name__ = "fileops"
 #function skills:
 # specify name args: 
 #       store(patient='Mr. Brainsample', hour=10, minute=20, day=13, month=5) 
@@ -753,6 +823,8 @@ elif __name__ == "linecenter":
     makecenter()
 elif __name__ == "wordcount":
     filewordcount()
+elif __name__ == "fileops":
+    FileOPS()
 elif __name__ == "search_n":
     a = [n for n in range(1,20) ]
     print ("a={}".format(a))
