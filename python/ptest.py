@@ -700,6 +700,13 @@ def FileOPS():
         ls.append(line.strip('\n').split(","))
     print(ls)
     
+    # format output
+    f.seek(l1,0)
+    for row in ls:
+        outstr = ""
+        for item in row:
+            outstr += "{:10}\t".format(item)
+        print(outstr)
     
     
     #close
